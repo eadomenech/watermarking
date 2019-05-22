@@ -15,15 +15,10 @@ class AvilaDomenech2019F():
         self.key = key
         # Hash of key
         self.binary_hash_key = utils.md5Binary(self.key)
-
-    def insert(self, cover_image):
-        # Image to array
-        cover_array = np.asarray(cover_image)
-        # Blue component
-        blue_cover_array = cover_array[:, :, 2]
-        blue_cover_array.setflags(write=1)
+    
+    def insertInComponent(self, component_cover_array):
         # Dividing in 32x32 blocks
-        blocks32x32 = BlocksImage(blue_cover_array, 32, 32)
+        blocks32x32 = BlocksImage(component_cover_array, 32, 32)
         # Touring each block 32x32
         for num_block in range(blocks32x32.max_num_blocks()):
             # Copying block 32x32
@@ -45,19 +40,23 @@ class AvilaDomenech2019F():
                     first_block[i, y] += int(blocksHash[16*i + y])
             # Update block
             blocks32x32.set_block(blocksCopy32x32, num_block)
+
+    def insert(self, cover_image):
+        # Image to array
+        cover_array = np.asarray(cover_image)
+        
+        # components
+        for i in range(3):
+            component = cover_array[:, :, i]
+            component.setflags(write=1)
+            self.insertInComponent(component)
+        
         watermarked_image = Image.fromarray(cover_array)
         return watermarked_image
-
-    def extract(self, watermarked_image):
-        import cv2
-        # To array
-        watermarked_array = np.asarray(watermarked_image)
-        # Blue component
-        blue_watermarked_array = watermarked_array[:, :, 2]
-        blue_watermarked_array.setflags(write=1)
-        blue_watermarked_array_noise = blue_watermarked_array.copy()
+    
+    def extractFromComponent(self, component_cover_array):
         # Dividing in 32x32 blocks
-        blocks32x32 = BlocksImage(blue_watermarked_array_noise, 32, 32)
+        blocks32x32 = BlocksImage(component_cover_array, 32, 32)
         # Touring each block 32x32
         modifiedBlocks = []
         for num_block in range(blocks32x32.max_num_blocks()):
@@ -81,7 +80,27 @@ class AvilaDomenech2019F():
             blocksHash = utils.sha256Binary(blockCopy32x32.tolist())
             if w != blocksHash:
                 modifiedBlocks.append(num_block)
+        return modifiedBlocks
+
+    def extract(self, watermarked_image):
+        import cv2
+        # To array
+        watermarked_array = np.asarray(watermarked_image)
+
+        modifiedBlocks = []
+
+        # components
+        for i in range(3):
+            component = watermarked_array[:, :, i]
+            component.setflags(write=1)
+            m = self.extractFromComponent(component)
+            modifiedBlocks += m
+        modifiedBlocks = list(set(modifiedBlocks))
         print(modifiedBlocks)
+
+        # Dividing in 32x32 blocks
+        blocks32x32 = BlocksImage(watermarked_array, 32, 32)
+        
         for item in modifiedBlocks:
             coord = blocks32x32.get_coord(item)
             cv2.rectangle(

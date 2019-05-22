@@ -7,7 +7,7 @@ from scipy import misc
 
 from evaluations.evaluations import Evaluations
 from block_tools.blocks_class import BlocksImage
-from AvilaDomenech2019R import AvilaDomenech2019R
+from AvilaDomenech2018R import AvilaDomenech2018R
 from AvilaDomenech2019F import AvilaDomenech2019F
 import pwlcm
 import math
@@ -22,7 +22,7 @@ def image_name(path):
 
 def run_main():
     eva = Evaluations()
-    wmr = AvilaDomenech2019R('password')
+    wmr = AvilaDomenech2018R('password')
     wmf = AvilaDomenech2019F('password')
 
     image_paths = glob.glob('static/dataset/*.jpg')
