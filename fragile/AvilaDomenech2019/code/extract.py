@@ -22,21 +22,13 @@ def main():
             filetypes=(
                 ("png files", "*.jpg"), ("jpg files", "*.png"),
                 ("all files", "*.*")))
-        cover_image = Image.open(root.filename).convert('RGB')
+        watermarked_image = Image.open(root.filename).convert('RGB')
         root.destroy()
-        watermarked_image = wm.insert(cover_image)
-        watermarked_image.save("static/watermarked_image.png")
-
-        # PSNR
-        cover_image = Image.open(root.filename)
-        stego_image = Image.open("static/watermarked_image.png").convert('RGB')
-        print("Calculando PSNR")
-        print(Evaluations().PSNR_RGB(cover_image, stego_image))
 
         # Watermark extracting
         watermark_extracted = wm.extract(watermarked_image)
         # Save watermark image
-        dir_water_im = "watermark_" + root.filename.split("/")[-1][:-4]  + ".bmp"
+        dir_water_im = "watermark_" + root.filename.split("/")[-1][:-4]  + ".png"
         watermark_extracted.save("static/" + dir_water_im)
     except Exception as e:
         root.destroy()

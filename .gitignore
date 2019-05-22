@@ -1,3 +1,17 @@
+# PDF
+*.pdf
+*.ps
+*.bbl
+*.blg
+*.dvi
+*.gz
+*.aux
+*.jpg
+*.png
+*.bmp
+*.pt
+*.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
