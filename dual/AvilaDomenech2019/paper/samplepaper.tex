@@ -17,7 +17,7 @@
 
 \begin{document}
 %
-\title{Dual watermarking scheme for handwritten document image integrity, tamper detection and copyright protection}
+\title{Dual watermarking for handwritten document image integrity, tamper detection and copyright protection for JPEG compression attacks}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -38,9 +38,9 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Artificial Neural Network (ANN) with a fragile watermarking algorithm based on MD5 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection and tampering detection of this images.
+For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Krawtchouk moments with a fragile watermarking algorithm based on MD5 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection for JPEG compression attacks and tampering detection of this images.
 
-\keywords{Artificial Neural Network \and Handwritten  \and Image \and Watermarking.}
+\keywords{Handwritten  \and Image \and Watermarking.}
 \end{abstract}
 %
 %
@@ -56,61 +56,21 @@ Numerous double watermarking algorithms have been proposed. In \cite{mohanty1999
 
 In \cite{shivani2017dual} provides dual functionalities of ownership assertion and authentication. In \cite{liu2018blind} presents a blind dual watermarking mechanism for digital color images. The first watermark is embedded by using the discrete wavelet transform (DWT) in YCbCr color space, and it can be extracted blindly without access to the host image. However, fragile watermarking is based on an improved least significant bits (LSB) replacement approach in RGB components for image authentication. In \cite{singh2019robust} presents lifting wavelet transform (LWT) and discrete cosine transform (DCT) based robust watermarking approach for tele-health applications. They are based on LWT requires less memory, reduced aliasing effects and distortion, fast and it is a good choice for low computational complexity than conventional DWT.
 
-On the other hand, deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
-
-An effective algorithm that effectively utilizes context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing information of $8\times 8$ blocks, a artificial neural network was used in our technique, which has been proven to be effective in classification tasks.
-
 The rest of the paper is organized as follow; Section 2 describes the proposed method including robust watermarking and fragile watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
 \section{Proposed method}
 Dual watermarking implies embedding of robust as well as fragile watermarks into the same cover image. It facilitates integration of copyright protection and integrity verification into the same scheme. First robust watermarking and then the fragile watermarking should be done because the fragile watermarking is sensitive to small changes. Unlike the fragile watermarking, robust resists changes caused by performing the marked fragile.
-
-\subsection{Robust watermarking}
-The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a artificial neural network topology known as multilayer perceptron (MLP) to classify the $8\times 8$ blocks according to the optimal marking parameters. A MLP is a feed-forward net with one or more layers of nodes between the input and output nodes. These in-between layers are called hidden layers.
-
-Many researchers develop approach to estimate the number of neurons and hidden layers requirement for a neural network but the approximation also get dependable on the type of the
-database samples for which the network is designed \cite{Karsoliya2012}.
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{models2.eps}
-		\caption{Model used.} \label{ann}
+		\includegraphics[width=\textwidth]{dual_watermarking.png}
+		\caption{Dual watermarking scheme.} \label{dual_watermarking}
 	\end{center}
 \end{figure}
 
-In Fig.~\ref{ann} the proposed model is shown. It was designed taking into account the following:
-\begin{itemize}
-	\item The number of hidden layer neurons are 2/3 (or 70\% to 90\%) of the size of the input layer. If this is insufficient then number of output layer neurons can be added later on \cite{Boger1997}.
-	\item One or two hidden layer are sufficient to solve any non linear complex problem. Also, if accuracy is the major and most needed criteria for designing the network then one can adopt the solution of third hidden layer, but this will increase overall complexity of the neural network and the total training time will be increased. There is no need to use four hidden layer in neural network architecture \cite{Karsoliya2012}.
-\end{itemize}
-The most important step in solving any real-world problem is to get the data. Kaggle provides a huge number of competitions on different data science problems \cite{Subramanian2018}; but because this is a very specific problem, we did not find a dataset that would be useful for training.
+\subsection{Robust watermarking}
+The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in ...
 
-For that, a new dataset of 75000 $8\times 8$ color images from 15 class, with 5000 images per class was create. The training set has 67500 images and the valid set has 7500 images. The dataset was obtained by dividing into $8\times 8$ blocks each of the images corresponding to the DIBCO 2017 dataset and calculating the coefficient and embedding strength values so that the balance between PSNR and BER represented as $FO$ were the highest possible values for each of the blocks.
-\begin{equation}
-FO = (PSNR/160 + \alpha + \beta)/3,
-\label{FA}
-\end{equation}
-where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alpha $ is the success in extracting the watermark from the watermarked image without noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
-\begin{figure} [H]
-	\begin{center}
-		\includegraphics[width=0.8\textwidth]{colormap.eps}
-		\caption{Coefficient and embedding strength values.} \label{colormap}
-	\end{center}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}
-		\begin{tabular}{|c|c|}\hline
-			\includegraphics[width=0.5\textwidth]{loss_600epoch_2x150hidded.eps}
-			&\includegraphics[width=0.5\textwidth]{accuracy_600epoch_2x150hidded.eps}\\\hline
-		\end{tabular}
-	\end{center}
-	\caption{Train loss, Valid loss and Accuracy.}
-	\label{loss_and_accuracy}
-\end{figure}
-
-In this process we use an open-source machine learning library for Python PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build Deep Learning algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity \cite{Subramanian2018}.
-
-Once the model is trained, the following steps are taken to complete the embedding process:
+The following steps are taken to embedding process:
 \begin{enumerate}
 	\item The binary watermark image (QR code) is scrambled using Arnold transform \cite{Arnol'd:1987366}.
 	\item The cover image is transformed from RGB to YCbCr color space, and the Y component, corresponding to the luminance information, is divided into small image blocks of $8\times 8$ pixels.
@@ -219,10 +179,7 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 \end{figure}
 
 \section{Conclusions}
-In this paper, a dual digital watermarking technique based on Neural Network and MD5 hash function was implemented. The results show a BER less than $0.006 \%$, so the extracted QR codes were decoded in $100\%$ of the $60$ analyzed images. In addition, the values corresponding to the PSNR were improved compared to previously presented papers.
-
-\section{Acknowledgment}
-The National Biotechnology Center is thanked, especially the researcher Yunior Cesar Fonseca Reyna belonging to the Department of Structure Macromolecules for his help in the training of the algorithm.
+In this paper, a dual digital watermarking technique based on Krawtchouk moments and MD5 hash function was implemented. The results show a BER less than $0.006 \%$, so the extracted QR codes were decoded in $100\%$ of the $60$ analyzed images. In addition, the values corresponding to the PSNR were improved compared to previously presented papers.
 %
 % ---- Bibliography ----
 %
