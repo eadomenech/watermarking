@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 # from helpers.image_class import Block_RGBImage
 from block_tools.blocks_class import BlocksImage
-from helpers.utils import md5Binary, base2decimal, decimal2base
-from math import floor
+from helpers.utils import md5Binary, base2decimal, decimal2base, base2base
 from PIL import Image
 from scipy import misc
 import numpy as np
@@ -29,13 +28,21 @@ class Liu2018F():
         #     fragil_watermark_2, 3 ** self.n, self.wsize)
         # print(self.fw)
     
-    def calculate_E(self, U, s):
+    def calculate_E(self, U):
+        '''
+        This equation is equivalent to extract the LSB of unit
+        U in 3^n base notational system
+        '''
         for i in range(len(U)):
             suma = (3 ** i) * U[i]
         return suma % (3 ** self.n)
 
     def calculate_t(self, s, E):
-        return (s - E + (3 ** self.n - 1)/2) % (3 ** self.n)
+        '''
+        A temporary value t is generated for adjusting the original unit U
+        '''
+        import math
+        return (s - E + math.floor(3 ** self.n - 1)/2) % (3 ** self.n)
     
     def insertarEnComponente(self, component_image):
         '''Insertar en una componente'''
@@ -44,29 +51,83 @@ class Liu2018F():
         # Datos como lista
         lista = array.reshape((1, array.size))[0]
         # Recorriendo los U
-        # for i in range(len(lista)//self.n):
-        for i in range(1000):
-            print("{} de {}".format(i, len(lista)//self.n))
+        #for i in range(len(lista)//self.n):
+        for i in range(2):
+            # print("{} de {}".format(i, len(lista)//self.n))
+            # Get the bit to mark 
             s = self.fw_3n[i % len(self.fw_3n)]
-            E = self.calculate_E(lista[i*self.n:self.n*(i+1)], s)
+            # Get U
+            U = lista[i*self.n:(i+1)*self.n]
+            # Calculate LSB of unit of U
+            E = self.calculate_E(U)
+            print(E)
+            # Calculate a temporary value t
             t = self.calculate_t(s, E)
+            # The temporary value t is transformed into a sequence t'
+            # by using a 3-base
             t_3 = decimal2base(t, 3)
+            # Each digit in sequence t' is then reduced by 1
             t_3 = [(t_3[k] - 1) for k in range(len(t_3))]
+            # Each pixel of the original n-pixel unit U is added to a
+            # corresponding digit of subtracted sequence
+            Up = []
             while(len(t_3) < self.n):
                 t_3.insert(0, 0)
             for l in range(self.n):
-                    lista[i*self.n + l] += t_3[(l*-1)-1]
+                Up.append(U[l] + t_3[(l*-1)-1])
+            
+            lista[i*self.n:(i+1)*self.n] = Up
+
+        array = lista.reshape(array.shape)
+
+        return Image.fromarray(array)
 
     def insert(self, cover_image):
         # Dividiendo en componentes RGB
         r, g, b = cover_image.split()
         
         # Marcando cada componente
-        self.insertarEnComponente(r)
-        self.insertarEnComponente(g)
-        self.insertarEnComponente(b)
+        r = self.insertarEnComponente(r)
+        g = self.insertarEnComponente(g)
+        b = self.insertarEnComponente(b)
 
         return Image.merge("RGB", (r, g, b))
+    
+    def extractEnComponente(self, component_image):
+        '''Insertar en una componente'''
+        listE = []
+        # Datos como array
+        array = misc.fromimage(component_image)
+        # Datos como lista
+        lista = array.reshape((1, array.size))[0]
+        # Recorriendo los U
+        # for i in range(len(lista)//self.n):
+        for i in range(2):
+        # for i in range(2):
+            # print("{} de {}".format(i, len(lista)//self.n))
+            # Get U
+            U = lista[i*self.n:(i+1)*self.n]
+            # Calculate LSB of unit of U
+            E = self.calculate_E(U)
+            print(E)
+            
+        
+        #print(self.fw_3n)
+        #print(listE)
+        return [0]
+            
 
     def extract(self, watermarked_image):
-        return watermarked_image
+        # Dividiendo en componentes RGB
+        r, g, b = watermarked_image.split()
+        
+        # Bloques modificados en componente Red
+        bmr = self.extractEnComponente(r)
+        # Bloques modificados en componente Green
+        bmg = self.extractEnComponente(g)
+        # Bloques modificados en componente Blue
+        bmb = self.extractEnComponente(b)
+
+        bm = list(set(bmr+bmg+bmb))
+
+        return bm
