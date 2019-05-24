@@ -24,25 +24,25 @@ class Liu2018F():
         self.fw_binary = [1, 1, 1, 1, 1, 1] 
         self.fw_decimal = base2decimal(self.fw_binary, 2)
         self.fw_3n = decimal2base(self.fw_decimal, 3 ** self.n)
-        # self.fw = self.changeBase(
-        #     fragil_watermark_2, 3 ** self.n, self.wsize)
-        # print(self.fw)
     
     def calculate_E(self, U):
         '''
         This equation is equivalent to extract the LSB of unit
         U in 3^n base notational system
         '''
+        suma = 0
         for i in range(len(U)):
-            suma = (3 ** i) * U[i]
-        return suma % (3 ** self.n)
+            suma += (3 ** i) * U[i]
+        E = suma % (3 ** self.n)
+        return E
 
     def calculate_t(self, s, E):
         '''
         A temporary value t is generated for adjusting the original unit U
         '''
         import math
-        return (s - E + math.floor(3 ** self.n - 1)/2) % (3 ** self.n)
+        t = (s - E + (3 ** self.n - 1)/2) % (3 ** self.n)
+        return t
     
     def insertarEnComponente(self, component_image):
         '''Insertar en una componente'''
@@ -51,8 +51,7 @@ class Liu2018F():
         # Datos como lista
         lista = array.reshape((1, array.size))[0]
         # Recorriendo los U
-        #for i in range(len(lista)//self.n):
-        for i in range(2):
+        for i in range(len(lista)//self.n):
             # print("{} de {}".format(i, len(lista)//self.n))
             # Get the bit to mark 
             s = self.fw_3n[i % len(self.fw_3n)]
@@ -60,12 +59,13 @@ class Liu2018F():
             U = lista[i*self.n:(i+1)*self.n]
             # Calculate LSB of unit of U
             E = self.calculate_E(U)
-            print(E)
             # Calculate a temporary value t
             t = self.calculate_t(s, E)
             # The temporary value t is transformed into a sequence t'
             # by using a 3-base
             t_3 = decimal2base(t, 3)
+            for h in range(len(U)-len(t_3)):
+                t_3.insert(0, 0)
             # Each digit in sequence t' is then reduced by 1
             t_3 = [(t_3[k] - 1) for k in range(len(t_3))]
             # Each pixel of the original n-pixel unit U is added to a
@@ -101,20 +101,15 @@ class Liu2018F():
         # Datos como lista
         lista = array.reshape((1, array.size))[0]
         # Recorriendo los U
-        # for i in range(len(lista)//self.n):
-        for i in range(2):
-        # for i in range(2):
-            # print("{} de {}".format(i, len(lista)//self.n))
+        for i in range(len(lista)//self.n):
             # Get U
             U = lista[i*self.n:(i+1)*self.n]
             # Calculate LSB of unit of U
             E = self.calculate_E(U)
-            print(E)
-            
+            if E != self.fw_3n[i % len(self.fw_3n)]:
+                listE += [2*i + k for k in range(self.n)]             
         
-        #print(self.fw_3n)
-        #print(listE)
-        return [0]
+        return listE
             
 
     def extract(self, watermarked_image):
