@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from block_tools.blocks_class import BlocksImage
 from image_tools.ImageTools import ImageTools
+from helpers.utils import base2decimal, decimal2base, base2base
 from PIL import Image
 from scipy import misc
 import numpy as np
@@ -21,23 +22,54 @@ class Shivani2017F():
         # Random vectors
         self.R1 = []
         self.R2 = []
+        self.M = 0
+        self.N = 0
     
     def generateR1andR2(self, M, N):
         for i in range(M):
-            self.R1.append(random.randint(0, 1))
+            self.R1.append(random.randint(0, 255)*1000 % M)
         for i in range(N):
-            self.R2.append(random.randint(0, 1))
+            self.R2.append(random.randint(0, 255)*1000 % N)
+    
+    def beta(self, pixel):
+        '''
+        Lista de 5 elementos binarios correspondientes a los 5 bit mas significativos
+        '''
+        binary = decimal2base(pixel, 2)
+        for n in range(8-len(binary)):
+            binary.insert(0, 0)
+        
+        return binary[:5]
+    
+    def xorList(self, list1, list2):
+        d1 = base2decimal(list1, 2)
+        d2 = base2decimal(list2, 2)
+        xor = decimal2base(d1^d2, 2)
+        for i in range(5-len(xor)):
+            xor.insert(0, 0)
+        return xor
+
 
     def insertarEnComponente(self, component_image):
         '''Insertar en una componente'''
+        # Datos como array
+        array = misc.fromimage(component_image)
+        # Datos como lista
+        lista = array.reshape((1, array.size))[0]
+        # Runing all pixels
+        for item, p in enumerate(lista):
+            most5Rq = self.beta(p)
+            most5Pq = self.beta(
+                lista[self.R1[item // self.M]*self.N + self.R2[item // self.N]])
+            print(self.xorList(most5Rq, most5Pq))
         
         return component_image
         
 
     def insert(self, cover_image):
         # Generate R1 and R2
-        m, n = cover_image.size
-        self.generateR1andR2(m, n)
+        self.M, self.N = cover_image.size
+        self.generateR1andR2(self.M, self.N)
         
         # Dividiendo en componentes RGB
         r, g, b = cover_image.split()
