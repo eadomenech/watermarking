@@ -73,7 +73,12 @@ class Liu2018F():
             while(len(t_3) < self.n):
                 t_3.insert(0, 0)
             for l in range(self.n):
-                Up.append(U[l] + t_3[(l*-1)-1])
+                v = U[l] + t_3[(l*-1)-1]
+                if v > 255:
+                    v =255
+                if v < 0:
+                    v =0
+                Up.append(v)
             
             lista[i*self.n:(i+1)*self.n] = Up
 
