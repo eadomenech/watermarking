@@ -7,9 +7,6 @@ from tkinter import *
 
 from PIL import Image
 import numpy as np
-from scipy import misc
-
-import cv2
 
 from evaluations.evaluations import Evaluations
 
@@ -28,19 +25,7 @@ def main():
                 ("all files", "*.*")))
         watermarked_image = Image.open(root.filename).convert('RGB')
         root.destroy()
-        modifiedPixels = wm.extract(watermarked_image)
-        print("Tamper detection: ", modifiedPixels)
-        
-        # Dividing in 1x1 blocks
-        watermarked_array = misc.fromimage(watermarked_image)
-        blocks = BlocksImage(watermarked_array, 1, 1)        
-        
-        for item in modifiedPixels:
-            coord = blocks.get_coord(item)
-            cv2.rectangle(
-                watermarked_array, (coord[1], coord[0]),
-                (coord[3], coord[2]), (0, 255, 0), 1)
-        misc.toimage(watermarked_array).show()
+        wm.extract(watermarked_image).show()
     except Exception as e:
         root.destroy()
         print("Error: ", e)

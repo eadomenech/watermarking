@@ -113,6 +113,10 @@ class Liu2018F():
             
 
     def extract(self, watermarked_image):
+        '''
+        Retorna la imagen marcada con los pixeles modificados de
+        color verde
+        '''
         # Dividiendo en componentes RGB
         r, g, b = watermarked_image.split()
         
@@ -125,4 +129,14 @@ class Liu2018F():
 
         bm = list(set(bmr+bmg+bmb))
 
-        return bm
+        # Dividing in 1x1 blocks
+        watermarked_array = misc.fromimage(watermarked_image)
+        blocks = BlocksImage(watermarked_array, 1, 1)        
+        
+        for item in bm:
+            coord = blocks.get_coord(item)
+            cv2.rectangle(
+                watermarked_array, (coord[1], coord[0]),
+                (coord[3], coord[2]), (0, 255, 0), 1)
+
+        return misc.toimage(watermarked_array)
