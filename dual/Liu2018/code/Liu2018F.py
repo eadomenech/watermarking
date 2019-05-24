@@ -10,7 +10,7 @@ import cv2
 
 class Liu2018F():
     """
-    This scheme is a blind dual watermarking mechanism for digital color images in which invisible robust watermarks are embedded for copyright protection and fragile watermarks are embedded for image authentication.
+    This scheme is a blind dual watermarking mechanism for digital color images in which invisible fragile watermarks are embedded for image authentication.
     """
 
     def __init__(self, key, n=2):
@@ -20,8 +20,7 @@ class Liu2018F():
         self.wsize = 256        
         
         # Building the fragile watermark
-        # self.fw_binary = md5Binary(str(key))
-        self.fw_binary = [1, 1, 1, 1, 1, 1] 
+        self.fw_binary = md5Binary(str(key))
         self.fw_decimal = base2decimal(self.fw_binary, 2)
         self.fw_3n = decimal2base(self.fw_decimal, 3 ** self.n)
     
