@@ -5,6 +5,7 @@ from helpers import utils
 from PIL import Image
 import numpy as np
 from copy import deepcopy
+from scipy import misc
 
 
 class AvilaDomenech2019F():
@@ -43,12 +44,11 @@ class AvilaDomenech2019F():
 
     def insert(self, cover_image):
         # Image to array
-        cover_array = np.asarray(cover_image)
+        cover_array = misc.fromimage(cover_image)
         
         # components
         for i in range(3):
             component = cover_array[:, :, i]
-            component.setflags(write=1)
             self.insertInComponent(component)
         
         watermarked_image = Image.fromarray(cover_array)
