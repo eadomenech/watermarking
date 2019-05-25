@@ -108,21 +108,21 @@ class Shivani2017F():
         listE = []
         # Datos como array
         array = misc.fromimage(component_image)
-        a = len(array)
-        b = len(array[0])
+        M = len(array)
+        N = len(array[0])
         # Runing all pixels
-        for m in range(a):
-            for n in range(b):
+        for m in range(M):
+            for n in range(N):
                 most5Rq = self.beta(array[m, n])
                 most5Pq = self.beta(array[self.R1[m], self.R2[n]])
                 xor = self.xorList(most5Rq, most5Pq)
                 Au = sum(xor) % 2
                 if Au:
                     if (array[m, n] % 2) == 0:
-                        listE += [m*a + n]
+                        listE += [m*N + n]
                 else:
                     if (array[m, n] % 2) == 1:
-                        listE += [m*a + n]                  
+                        listE += [m*N + n]                  
         
         return listE
     
@@ -149,12 +149,13 @@ class Shivani2017F():
 
         # Dividing in 1x1 blocks
         watermarked_array = misc.fromimage(watermarked_image)
-        blocks = BlocksImage(watermarked_array, 1, 1)        
+
+        y = len(watermarked_array)
+        x = len(watermarked_array[0])      
         
         for item in bm:
-            coord = blocks.get_coord(item)
-            cv2.rectangle(
-                watermarked_array, (coord[1], coord[0]),
-                (coord[3], coord[2]), (0, 255, 0), 1)
+            fila = item // x
+            columna = item % x
+            watermarked_array[fila, columna] = [0, 255, 0]
 
         return misc.toimage(watermarked_array)
