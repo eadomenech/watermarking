@@ -62,7 +62,7 @@ The rest of the paper is organized as follow; Section 2 describes the proposed m
 Dual watermarking implies embedding of robust as well as fragile watermarks into the same cover image. It facilitates integration of copyright protection and integrity verification into the same scheme. First robust watermarking and then the fragile watermarking should be done because the fragile watermarking is sensitive to small changes. Unlike the fragile watermarking, robust resists changes caused by performing the marked fragile.
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{1.jpg}
+		\includegraphics[width=\textwidth]{dual_watermarking.png}
 		\caption{Dual watermarking scheme.} \label{dual_watermarking}
 	\end{center}
 \end{figure}
@@ -150,6 +150,16 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{BERWithoutSaintGall.eps}
+			&\includegraphics[width=0.5\textwidth]{BERWithoutParzival.eps}\\\hline
+		\end{tabular}
+	\end{center}
+	\caption{BER values for watermarked images without noise.}
+	\label{berWithout}
+\end{figure}
+\begin{figure}[H]
+	\begin{center}
+		\begin{tabular}{|c|c|}\hline
 			\includegraphics[width=0.5\textwidth]{BER75SaintGall.eps}
 			&\includegraphics[width=0.5\textwidth]{BER75Parzival.eps}\\\hline
 		\end{tabular}
@@ -160,8 +170,8 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
-			\includegraphics[width=0.5\textwidth]{BER75SaintGall.eps}
-			&\includegraphics[width=0.5\textwidth]{BER75Parzival.eps}\\\hline
+			\includegraphics[width=0.5\textwidth]{BER50SaintGall.eps}
+			&\includegraphics[width=0.5\textwidth]{BER50Parzival.eps}\\\hline
 		\end{tabular}
 	\end{center}
 	\caption{BER values for watermarked images with JPEG compression (QF=50\%).}
@@ -170,8 +180,8 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
-			\includegraphics[width=0.5\textwidth]{BER75SaintGall.eps}
-			&\includegraphics[width=0.5\textwidth]{BER75Parzival.eps}\\\hline
+			\includegraphics[width=0.5\textwidth]{BER25SaintGall.eps}
+			&\includegraphics[width=0.5\textwidth]{BER25Parzival.eps}\\\hline
 		\end{tabular}
 	\end{center}
 	\caption{BER values for watermarked images with JPEG compression (QF=25\%).}
