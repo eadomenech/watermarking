@@ -96,7 +96,7 @@ class Liu2018F():
         return Image.merge("RGB", (r, g, b))
     
     def extractEnComponente(self, component_image):
-        '''Insertar en una componente'''
+        '''Extraer en una componente'''
         listE = []
         # Datos como array
         array = misc.fromimage(component_image)
