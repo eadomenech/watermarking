@@ -130,12 +130,15 @@ The imperceptibility of the watermark was evaluated using several databases. We 
 	\caption{PSNR values for Saint Gall database watermarked images.}
 	\label{psnr}
 \end{figure}
-
-\begin{figure}
+\begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{PSNRwsize.eps}
-		\caption{PSNR W Size.} \label{psnrwsize}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{PSNRwsizeSaintGall.eps}
+			&\includegraphics[width=0.5\textwidth]{PSNRwsizeParzival.eps}\\\hline
+		\end{tabular}
 	\end{center}
+	\caption{Comportamiento del PSNR al variar las dimensiones de la marca de agua en dos imágenes, una perteneciente a Saint Gall y otra a Perzival.}
+	\label{psnrwsize}
 \end{figure}
 
 \subsection{Tamper detection}
@@ -197,8 +200,14 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{BERwsize.eps}
-		\caption{BER W Size.} \label{berwsize}
+		\includegraphics[width=\textwidth]{BERwsizeSaintGall.eps}
+		\caption{Comportamiento del BER al marcar la imagen x de Saint Gall database con marcas de aguas de distintos tamaños.} \label{berwsizeSaintGall}
+	\end{center}
+\end{figure}
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=\textwidth]{BERwsizeParzival.eps}
+		\caption{Comportamiento del BER al marcar la imagen x de Parzival database con marcas de aguas de distintos tamaños..} \label{berwsizeParzival}
 	\end{center}
 \end{figure}
 

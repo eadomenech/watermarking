@@ -26,7 +26,7 @@ def image_name(path):
 def run_main():
     eva = Evaluations()
     
-    path = 'static/d-006.jpg'
+    path = 'static/csg562-003.jpg'
     cover_image = Image.open(path).convert('RGB')
     name = image_name(path)
     

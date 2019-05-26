@@ -26,13 +26,13 @@ def image_name(path):
 def run_main():
     eva = Evaluations()
     
-    path = 'static/d-006.jpg'
+    path = 'static/csg562-003.jpg'
     cover_image = Image.open(path).convert('RGB')
     name = image_name(path)
     
     watermark = Image.open("static/Watermarking.png").convert("1")
 
-    size_to_evaluate = [8, 16, 32, 64, 128, 256, 512]
+    size_to_evaluate = [8, 16, 32, 64, 128, 256]
 
     # Fichero a guardar resultados
     f_psnr = open("psnr.txt", "w")
