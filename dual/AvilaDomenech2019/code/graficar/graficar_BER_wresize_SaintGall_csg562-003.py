@@ -13,7 +13,7 @@ def run_main():
     # Dividimos la ventana en una fila y dos
     # columnas y dibujamos el primer gráfico
 
-    plt.rc('font', size = 12)
+    plt.rc('font', size = 14)
 
     # Without noise
     plt.subplot(2,2,1)
