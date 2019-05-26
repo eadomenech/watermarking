@@ -28,7 +28,7 @@ def main():
         watermarked_image = Image.open(root.filename).convert('RGB')
         root.destroy()
 
-        wm.extract(watermarked_image).show()
+        wm.extract(watermarked_image).save('static/tamper_detection.png')
     except Exception as e:
         root.destroy()
         print("Error: ", e)

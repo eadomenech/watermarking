@@ -17,7 +17,7 @@
 
 \begin{document}
 %
-\title{Dual watermarking for handwritten document image integrity, tamper detection and copyright protection for JPEG compression attacks}
+\title{Dual watermarking for handwritten document image authentication, tamper detection and copyright protection for JPEG compression attacks}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -38,7 +38,7 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Krawtchouk moments with a fragile watermarking algorithm based on MD5 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection for JPEG compression attacks and tampering detection of this images.
+For authentication, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Krawtchouk moments with a fragile watermarking algorithm based on MD5 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection for JPEG compression attacks and tampering detection of this images.
 
 \keywords{Handwritten  \and Image \and Watermarking.}
 \end{abstract}
@@ -48,7 +48,7 @@ For the integrity, tamper detection and copyright protection of handwritten docu
 \section{Introduction}
 The explosive growth of digital multimedia techniques, together with the rapid development of digital network communication has created a pressing demand for techniques that can be used for copy protection, copyright protection and content authentication. Owing to the need of copyright protection and authentication validation, Digital Rights Management (DRM) is gaining importance. DRM refers to a range of access control technologies used to limit or restrict usage of digital content. Digital watermarking is useful in DRM systems as it can hide information within the digital content like images, audio and video.
 
-Watermarking technique is effectively applied to content authentication, integrity protection, and image copyright. In accordance with the desired robustness of the embedded watermark, digital watermarking techniques are divided into fragile watermarking and robust watermarking. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is typically used for copyright protection, thus it is designed to resist attacks that attempt to remove or destroy the watermark without significantly degrading the visual quality of the watermarked image.
+Watermarking technique is effectively applied to content authentication and copyright protection. In accordance with the desired robustness of the embedded watermark, digital watermarking techniques are divided into fragile watermarking and robust watermarking. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is typically used for copyright protection, thus it is designed to resist attacks that attempt to remove or destroy the watermark without significantly degrading the visual quality of the watermarked image.
 
 When users want to detect illegal tampering and at the same time protect the copyright, the single watermarking algorithm cannot meet the needs of users. Therefore, the double watermarking algorithm is developed, as it can effectively combine the advantages and functions of the two watermarks \cite{wang2017dual}.
 
@@ -127,7 +127,7 @@ The imperceptibility of the watermark was evaluated using several databases. We 
 			&\includegraphics[width=0.5\textwidth]{PSNR_parzival.eps}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{PSNR values for Saint Gall database watermarked images.}
+	\caption{PSNR values for Saint Gall and Parzival database watermarked images.}
 	\label{psnr}
 \end{figure}
 \begin{figure}[H]
@@ -146,27 +146,25 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|}\hline
-			\includegraphics[width=0.25\textwidth]{1.jpg}
-			&\includegraphics[width=0.25\textwidth]{watermarked_image.png}
-			&\includegraphics[width=0.25\textwidth]{watermarked_image_with_noise.png}
-			&\includegraphics[width=0.25\textwidth]{tampered_image.png}\\\hline
+			\includegraphics[width=0.25\textwidth]{csg562-003.jpg}
+			&\includegraphics[width=0.25\textwidth]{watermarked_Liu2018.png}
+			&\includegraphics[width=0.25\textwidth]{watermarked_Liu2018_with_addition_text.png}
+			&\includegraphics[width=0.25\textwidth]{tamper_detection_Liu2018.png}\\\hline
+			\includegraphics[width=0.25\textwidth]{csg562-003.jpg}
+			&\includegraphics[width=0.25\textwidth]{watermarked_Shivani2017.png}
+			&\includegraphics[width=0.25\textwidth]{watermarked_Shivani2017_with_addition_text.png}
+			&\includegraphics[width=0.25\textwidth]{tamper_detection_Shivani2017.png}\\\hline
+			\includegraphics[width=0.25\textwidth]{csg562-003.jpg}
+			&\includegraphics[width=0.25\textwidth]{watermarked_proposed.png}
+			&\includegraphics[width=0.25\textwidth]{watermarked_proposed_with_noise.png}
+			&\includegraphics[width=0.25\textwidth]{tamper_detection_proposed.png}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{Original image, watermarked image, modified watermarked image and tamper area detection.}
+	\caption{Original image, watermarked image, modified watermarked image by text addition and content removal, and tamper detection.}
 	\label{img_of_AHM}
 \end{figure}
 \subsection{Robustness}
 The bit error rate (BER) is defined as ratio between number of incorrectly decoded bits and total number of bits.
-\begin{figure}[H]
-	\begin{center}
-		\begin{tabular}{|c|c|}\hline
-			\includegraphics[width=0.5\textwidth]{BERWithoutSaintGall.eps}
-			&\includegraphics[width=0.5\textwidth]{BERWithoutParzival.eps}\\\hline
-		\end{tabular}
-	\end{center}
-	\caption{BER values for watermarked images without noise.}
-	\label{berWithout}
-\end{figure}
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -198,16 +196,16 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 	\label{ber25}
 \end{figure}
 
-\begin{figure}
+\begin{figure} [H]
 	\begin{center}
 		\includegraphics[width=\textwidth]{BERwsizeSaintGall.eps}
-		\caption{Comportamiento del BER al marcar la imagen x de Saint Gall database con marcas de aguas de distintos tamaños.} \label{berwsizeSaintGall}
+		\caption{BER behavior to mark the image ``csg562-003.jpg'' of Saint Gall database with watermarks of different sizes.} \label{berwsizeSaintGall}
 	\end{center}
 \end{figure}
-\begin{figure}
+\begin{figure} [H]
 	\begin{center}
 		\includegraphics[width=\textwidth]{BERwsizeParzival.eps}
-		\caption{Comportamiento del BER al marcar la imagen x de Parzival database con marcas de aguas de distintos tamaños..} \label{berwsizeParzival}
+		\caption{BER behavior to mark the image ``d-006.jpg'' of Parzival database with watermarks of different sizes.} \label{berwsizeParzival}
 	\end{center}
 \end{figure}
 

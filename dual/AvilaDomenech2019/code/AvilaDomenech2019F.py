@@ -85,14 +85,13 @@ class AvilaDomenech2019F():
     def extract(self, watermarked_image):
         import cv2
         # To array
-        watermarked_array = np.asarray(watermarked_image)
+        watermarked_array = misc.fromimage(watermarked_image)
 
         modifiedBlocks = []
 
         # components
         for i in range(3):
             component = watermarked_array[:, :, i]
-            component.setflags(write=1)
             m = self.extractFromComponent(component)
             modifiedBlocks += m
         modifiedBlocks = list(set(modifiedBlocks))
@@ -103,6 +102,11 @@ class AvilaDomenech2019F():
         
         for item in modifiedBlocks:
             coord = blocks32x32.get_coord(item)
+            for x in range(32):
+                for y in range(32):
+                    watermarked_array[coord[0]+x, coord[1]+y] = [0, 255, 0]
+                    
+            
             cv2.rectangle(
                 watermarked_array, (coord[1], coord[0]),
                 (coord[3], coord[2]), (0, 255, 0), 1)
