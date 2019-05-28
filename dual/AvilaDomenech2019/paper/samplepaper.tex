@@ -50,29 +50,38 @@ For authentication, tamper detection and copyright protection of handwritten doc
 %
 %
 \section{Introduction}
-The explosive growth of digital multimedia techniques, together with the rapid development of digital network communication has created a pressing demand for techniques that can be used for content authentication and copyright protection. Due to these needs, digital rights management (DRM) is gaining importance; it refers to a range of access control technologies used to limit or restrict the use of digital content. Digital watermarking is useful in DRM systems as it can hide information within the digital content like images, audio and video.
+The explosive growth of digital multimedia techniques, together with the rapid development of digital network communication has created a pressing demand for techniques that could be used for content authentication and copyright protection. Due to these needs, digital rights management (DRM) is gaining importance; it refers to a range of access control technologies used to limit or restrict the use of digital content. Digital watermarking is useful in DRM systems as it can hide information within the digital content like images, audio and video.
 
 Watermarking technique is effectively applied to content authentication and copyright protection. In accordance with the desired robustness of the embedded watermark, digital watermarking techniques are divided into fragile watermarking and robust watermarking. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is typically used for copyright protection, thus it is designed to resist attacks that attempt to remove or destroy the watermark without significantly degrading the visual quality of the watermarked image.
 
 When users want to detect illegal tampering and protect the copyright at the same time, the single watermarking algorithm cannot meet the needs of users. Therefore, a dual watermarking algorithm is developed, as it can effectively combine the advantages and functions of the two watermarks \cite{wang2017dual}.
 
-Numerous dual watermarking algorithms have been proposed. In \cite{mohanty1999dual} is presented a dual watermarking technique which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms. In \cite{wang2017dual} is presented a dual watermarking algorithm that connects the robust watermarking algorithm based on singular value decomposition (SVD) with a fragile watermarking algorithm based on compressive sensing (CS). In \cite{singh2018hybrid} use cryptography and QR Code in combined approach of LSB and DCT, the authors combines the LSB and DCT approach because LSB contain spatial domain property and DCT contain frequency domain property.
+Numerous dual watermarking algorithms have been proposed. In \cite{mohanty1999dual}, a dual watermarking technique is presented which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms. In \cite{wang2017dual},  a dual watermarking algorithm that connects the robust watermarking algorithm based on singular value decomposition (SVD) with a fragile watermarking algorithm based on compressive sensing (CS) is presented. \cite{singh2018hybrid} uses cryptography and QR Code in combined approach of LSB and DCT, the authors combines the LSB and DCT approach because LSB contain spatial domain property and DCT contain frequency domain property.
 
-\cite{shivani2017dual} provides dual functionalities of ownership assertion and authentication. In \cite{liu2018blind} is presented a blind dual watermarking mechanism for digital color images. The first watermark is embedded by using the discrete wavelet transform (DWT) in YCbCr color space, and it can be extracted blindly without access to the host image. However, fragile watermarking is based on an improved least significant bits (LSB) replacement approach in RGB components for image authentication. In \cite{singh2019robust} is presented a lifting wavelet transform (LWT) and discrete cosine transform (DCT) based robust watermarking approach for tele-health applications. They are based on LWT requires less memory, reduced aliasing effects and distortion, fast and it is a good choice for low computational complexity than conventional DWT.
+In \cite{shivani2017dual}, a gray scale logo used as copyright information of the owner is embedded imperceptibly into the singular values of the cover image in multiple locations, also performed pixel wise authentication which fetched the advantage of accurate tamper localization in case of alterations. In \cite{liu2018blind}, a blind dual watermarking mechanism for digital color images is presented. The first watermark is embedded by using the discrete wavelet transform (DWT) in YCbCr color space, and it can be extracted blindly without access to the host image. However, fragile watermarking is based on an improved least significant bits (LSB) replacement approach in RGB components for image authentication. In \cite{singh2019robust}, a lifting wavelet transform (LWT) and discrete cosine transform (DCT) based robust watermarking approach for tele-health applications is presented. They are based on LWT, which requires less memory, it has reduced aliasing effects and distortion, fast and it is a good choice for low computational complexity than conventional DWT.
+
+The aforementioned methods have been proposed for images in a general sense. Unlike these methods, our proposal is a dual watermark optimized for handwritten document images. 
 
 The rest of the paper is organized as follow; Section 2 describes the proposed method including robust watermarking and fragile watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
 \section{Proposed method}
-Dual watermarking implies embedding of robust as well as fragile watermarks into the same cover image. It facilitates integration of copyright protection and integrity verification into the same scheme. First robust watermarking and then the fragile watermarking should be done because the fragile watermarking is sensitive to small changes. Unlike the fragile watermarking, robust watermarking resists changes caused by performing the marked fragile.
+Dual watermarking implies embedding of fragile as well as robust watermarks into the same cover image. It facilitates integration of image authentication and copyright protection into the same scheme. First robust watermarking and then the fragile watermarking should be done because the fragile watermarking is sensitive to small changes. Unlike the fragile watermarking, the robust one resists changes caused by performing the fragile watermarking.
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{dual_watermarking.png}
-		\caption{Dual watermarking scheme.} \label{dual_watermarking}
+		\includegraphics[width=0.8\textwidth]{dual_watermarking.png}
+		\caption{Dual watermarking.} \label{dual_watermarking}
 	\end{center}
 \end{figure}
 
 \subsection{Robust watermarking}
-The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in considering any binary image as a watermark. In the previous work only a QR code was considered as a watermark.
+The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in considering any binary image as a watermark. In the previous work only a QR code was considered as a watermark, so it was possible a restructuring of the extracted watermark making use of the characteristics related to the QR codes.
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=\textwidth]{WP.png}
+	\end{center}
+	\caption{Watermark embedding and extraction scheme. (Modified from \cite{avila2018watermarking})}
+	\label{PIE}
+\end{figure}
 
 The following steps are taken to embedding process:
 \begin{enumerate}
@@ -81,7 +90,7 @@ The following steps are taken to embedding process:
 	\item A number of blocks equal to the number of bits to be inserted is selected from a given key.
 	\item The Krawtchouk moments \cite{Yap2003} of selected blocks are determined.
 	\item Watermark bit is embedded in the selected block moments using Dither modulation \cite{chen2001quantization}. The values 19 and 128 are used as the coefficient and embedding strength values respectively. Watermarked blocks can be obtained. 
-	\item Conversion from YCbCr to RGB is performed to obtain RGB watermarked image.
+	\item The YCbCr to RGB color space is transformed to obtain RGB watermarked image.
 \end{enumerate}
 
 For watermark extraction:
@@ -94,7 +103,7 @@ For watermark extraction:
 \end{enumerate}
 
 \subsection{Fragile watermarking}
-As we know, hash function, such as MD5 or SHA-256, can be utilized to authenticate the data. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
+As we know, a hash function, such as MD5 or SHA-256, can be utilized to authenticate the data. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
 
 For the process of embedding the following steps are performed each RGB component:
 \begin{enumerate}
@@ -102,7 +111,7 @@ For the process of embedding the following steps are performed each RGB componen
 	\item 128 pixels of each block are selected by a given key.
 	\item The least significant bit (LSB) of each selected pixel is assigned the value 0.
 	\item The MD5 hash value of the modified block is generated as a watermark.
-	\item The watermark is embedded into the LSB of the selected pixels and watermarked block image is obtained.  
+	\item The watermark is embedded into the LSB of the selected pixels and a watermarked block image is obtained.  
 \end{enumerate}    
 
 Detecting a fragile watermark water is the reverse process of embedding watermark, which is used to detect whether the watermarked image has been tampered and what the precise position of the tampered parts is. For this:
@@ -111,17 +120,17 @@ Detecting a fragile watermark water is the reverse process of embedding watermar
 	\item 128 pixels of each block are selected by a given key.
 	\item Three binary series are formed from the LSBs of the selected pixels.
 	\item The LSBs of each selected pixel are assigned the value 0.
-	\item The MD5 hash value of the modified block is generated and compareted with obtained series.
+	\item The MD5 hash value of the modified block is generated and compared with obtained series.
 \end{enumerate}
 
 \section{Experiments and Results}
-The watermarking algorithm is evaluated through imperceptibility, tamper detection and robustness, and the following experiments are introduced.
+The watermarking algorithm is evaluated through imperceptibility, tamper detection and robustness. Also, it is compared with the methods proposed in \cite{shivani2017dual} y \cite{liu2018blind}. This last method has as parameter the variable $k$, that corresponds to the strength of the watermark. A higher $k$ can increase the strength of the embedded watermark, but it makes the watermarked image easier to perceive. For this reason and to make a better comparison, we have taken four different $k$ values (0.2, 0.4, 0.8 and 1.0).   
 
 We used two handwriten document image databases: Saint Gall \cite{fischer2011transcription} and Parzival \cite{fischer2009automatic} database. The first one contains manuscripts from the 9th century using Carolingian scripts by a single writer, while the Parzival is compiled from 13th century Gothic scripts \cite{pastor2016complete}.
  
 
 \subsection{Imperceptibility}
-We calculated the larger peak signal-to-noise ratio (PSNR) which compares the similarity between the original image $ I $ and the watermarked image $ I_w $. A PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
+We calculated the larger peak signal-to-noise ratio (PSNR) which compares the similarity between the original image $ I $ and the watermarked image $ I_w $. A higher PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -132,7 +141,8 @@ We calculated the larger peak signal-to-noise ratio (PSNR) which compares the si
 	\caption{PSNR values for Saint Gall and Parzival database watermarked images.}
 	\label{psnr}
 \end{figure}
-\begin{figure}[H]
+For both databases, the proposed method obtains higher values of PSNR compared to \cite{shivani2017dual} and \cite{liu2018blind} in its four variants (see Fig.~\ref{psnr}). Also, it can be noticed that \cite{shivani2017dual} provides improvements with respect to \cite{liu2018blind}. In addition, it is observable that by varying the parameter $k$ similar values of PSNR are contained.  
+\begin{figure}
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
 			\includegraphics[width=0.5\textwidth]{PSNRwsizeSaintGall.eps}
@@ -142,9 +152,6 @@ We calculated the larger peak signal-to-noise ratio (PSNR) which compares the si
 	\caption{PSNR behavior to mark the ``csg562-003.jpg'' image of Saint Gall database and ``d-006.jpg'' image of Perzival database with watermarks of different sizes.}
 	\label{psnrwsize}
 \end{figure}
-
-\subsection{Tamper detection}
-Tamper area detection capability is evaluated, by modifying the contents of images, adding and removing content. We developed our proposed fragile watermarking particularly for integrity images and locating tampered areas. Fig.~\ref{psnr} shows the attacked images and their corresponding tamper detection results.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|}\hline
@@ -162,11 +169,21 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 			&\includegraphics[width=0.25\textwidth]{tamper_detection_proposed.jpg}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{Cover image, watermarked image, modified watermarked image by text addition and content removal, and tamper detection.}
-	\label{img_of_AHM}
+	\caption{Cover image, watermarked image, modified watermarked, and tamper detection corresponding to \cite{shivani2017dual}, \cite{liu2018blind} and proposed scheme.}
+	\label{tamper_detection}
 \end{figure}
+
+As a preliminary experiment, two images were taken, one for each database, and tests were performed to obtain the corresponding PSNR by varying the size of the watermark. For this case, the dimensions $8\times 8$, $16\times 16$, $32\times 32$, $64\times 64$, $128\times 128$ and $256\times 256$ pixels were taken as a watermark. As shown in Fig.~\ref{psnrwsize} the proposed method obtains better imperceptibility values for the first five dimensions, only in the sixth is it slightly exceeded by \cite{shivani2017dual}.
+
+\subsection{Tamper detection}
+Tamper area detection capability is evaluated, by modifying the contents of images. We developed our proposed fragile watermarking particularly for integrity images and locating tampered areas. Fig.~\ref{tamper_detection} shows the modified watermarked image by text addition and content removal, and their corresponding tamper detection results.
+
+The results obtained by \cite{shivani2017dual} are not good due to the XOR used in the algorithm, it causes that in many cases existing modifications, this is not detected. With \cite{liu2018blind} a better change detection is obtained, although like \cite{shivani2017dual} they are not superior to the proposed one.
+
+In \cite{liu2018blind} the amount of false positives that occur is visible. This is because there are not a few pixels where one of its components has a value of 0. The authors name this a special case, underflow or overflow would occur when the watermarked pixel $p'_i$ is less than 0 or greater than 255.
+
 \subsection{Robustness}
-The bit error rate (BER) is defined as ratio between number of incorrectly decoded bits and total number of bits.
+The bit error rate (BER) is defined as the ratio between the number of incorrectly decoded bits and the total number of bits.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -198,16 +215,18 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 	\label{ber25}
 \end{figure}
 
-\begin{figure} [H]
+The bit error rate (BER) is defined as the ratio between the number of incorrectly decoded bits and the total number of bits.
+
+\begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{BERwsizeSaintGall.eps}
-		\caption{BER behavior to mark the image ``csg562-003.jpg'' of Saint Gall database with watermarks of different sizes.} \label{berwsizeSaintGall}
+		\includegraphics[width=1.1\textwidth]{BERwsizeSaintGall.eps}
+		\caption{BER behavior to mark the image ``csg562-003.jpg'' of Saint Gall database with watermarks of different sizes when no attack is applied, a JPEG compression is performed with QF = 75\%, 50\% and 25\% respectively.} \label{berwsizeSaintGall}
 	\end{center}
 \end{figure}
-\begin{figure} [H]
+\begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{BERwsizeParzival.eps}
-		\caption{BER behavior to mark the image ``d-006.jpg'' of Parzival database with watermarks of different sizes.} \label{berwsizeParzival}
+		\includegraphics[width=1.1\textwidth]{BERwsizeParzival.eps}
+		\caption{BER behavior to mark the image ``d-006.jpg'' of the Parzival database with watermarks of different sizes when no attack is applied, a JPEG compression is performed with QF = 75\%, 50\% and 25\% respectively.} \label{berwsizeParzival}
 	\end{center}
 \end{figure}
 
