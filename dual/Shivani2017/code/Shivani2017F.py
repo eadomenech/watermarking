@@ -30,19 +30,19 @@ class Shivani2017F():
     def generateR1andR2(self, M, N):
         sha1 = sha256Binary(self.k1)
         sha2 = sha256Binary(self.k2)
-        posiR1 = [i for i in range((255*1000) % M)]
-        posiR2 = [i for i in range((255*1000) % N)]
+        
+        pos = [i for i in range(255)]
 
         i = 0
         while (len(self.R1) < M):
-            if sha1[i % len(sha1)]:
-                self.R1.append(posiR1[i % len(posiR1)])
+            if sha1[i % 256]:
+                self.R1.append(pos[i % len(pos)]*1000 % M)
             i += 1
         
         i = 0
         while (len(self.R2) < N):
-            if sha2[i % len(sha2)]:
-                self.R2.append(posiR2[i % len(posiR2)])
+            if sha2[i % 256]:
+                self.R2.append(pos[i % len(pos)]*1000 % N)
             i += 1
     
     def beta(self, pixel):

@@ -44,26 +44,31 @@ class Liu2018F():
         return t
     
     def validate_U(self, U, s):
-        # Calculate LSB of unit of U
-        E = self.calculate_E(U)
-        # Calculate a temporary value t
-        t = self.calculate_t(s, E)
-        # The temporary value t is transformed into a sequence t'
-        # by using a 3-base
-        t_3 = decimal2base(t, 3)
-        for h in range(len(U)-len(t_3)):
-            t_3.insert(0, 0)
-        # Each digit in sequence t' is then reduced by 1
-        t_3 = [(t_3[k] - 1) for k in range(len(t_3))]
-        # Each pixel of the original n-pixel unit U is added to a
-        # corresponding digit of subtracted sequence
-        while(len(t_3) < self.n):
-            t_3.insert(0, 0)
-        for l in range(self.n):
-            if (t_3[(l*-1)-1]) == 1 and U[l] == 255:
-                U[l] = 254
-            if (t_3[(l*-1)-1]) == -1 and U[l] == 0:
-                U[l] = 1
+        b = True
+        while b:
+            b = False
+            # Calculate LSB of unit of U
+            E = self.calculate_E(U)
+            # Calculate a temporary value t
+            t = self.calculate_t(s, E)
+            # The temporary value t is transformed into a sequence t'
+            # by using a 3-base
+            t_3 = decimal2base(t, 3)
+            for h in range(len(U)-len(t_3)):
+                t_3.insert(0, 0)
+            # Each digit in sequence t' is then reduced by 1
+            t_3 = [(t_3[k] - 1) for k in range(len(t_3))]
+            # Each pixel of the original n-pixel unit U is added to a
+            # corresponding digit of subtracted sequence
+            while(len(t_3) < self.n):
+                t_3.insert(0, 0)
+            for l in range(self.n):
+                if (t_3[(l*-1)-1]) == 1 and U[l] == 255:
+                    U[l] = 254
+                    b = True
+                if (t_3[(l*-1)-1]) == -1 and U[l] == 0:
+                    U[l] = 1
+                    b = True
         return U
     
     def insertarEnComponente(self, component_image):
