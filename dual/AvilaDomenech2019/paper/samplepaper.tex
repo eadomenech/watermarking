@@ -162,7 +162,7 @@ For both databases, the proposed method obtains higher values of PSNR compared t
 			\includegraphics[width=0.25\textwidth]{csg562-003.jpg}
 			&\includegraphics[width=0.25\textwidth]{watermarked_Liu2018.jpg}
 			&\includegraphics[width=0.25\textwidth]{watermarked_Liu2018_with_addition_text.jpg}
-			&\includegraphics[width=0.25\textwidth]{tamper_detection_Liu2018.jpg}\\\hline
+			&\includegraphics[width=0.25\textwidth]{tamper_detection_proposed.jpg}\\\hline
 			\includegraphics[width=0.25\textwidth]{csg562-003.jpg}
 			&\includegraphics[width=0.25\textwidth]{watermarked_proposed.jpg}
 			&\includegraphics[width=0.25\textwidth]{watermarked_proposed_with_noise.jpg}
@@ -178,9 +178,9 @@ As a preliminary experiment, two images were taken, one for each database, and t
 \subsection{Tamper detection}
 Tamper area detection capability is evaluated, by modifying the contents of images. We developed our proposed fragile watermarking particularly for integrity images and locating tampered areas. Fig.~\ref{tamper_detection} shows the modified watermarked image by text addition and content removal, and their corresponding tamper detection results.
 
-The results obtained by \cite{shivani2017dual} are not good due to the XOR used in the algorithm, it causes that in many cases existing modifications, this is not detected. With \cite{liu2018blind} a better change detection is obtained, although like \cite{shivani2017dual} they are not superior to the proposed one.
+The results obtained by \cite{shivani2017dual} are not good due to the XOR used in the algorithm. This causes that many modifications to the image are not detected. On the other hand, both the \cite{liu2018blind} method and the proposed one detect the modifications made in an acceptable way.
 
-In \cite{liu2018blind} the amount of false positives that occur is visible. This is because there are not a few pixels where one of its components has a value of 0. The authors name this a special case, underflow or overflow would occur when the watermarked pixel $p'_i$ is less than 0 or greater than 255.
+In \cite{liu2018blind}, there is a special case, underflow or overflow would occur when the watermarked pixel $p'_i$ is less than 0 or greater than 255 respectively. To solve it, the authors propose to increase or decrease by 1 original pixel value. After that, the embedding algorithm is repeated to generate a new pixel.
 
 \subsection{Robustness}
 The bit error rate (BER) is defined as the ratio between the number of incorrectly decoded bits and the total number of bits.
