@@ -95,7 +95,6 @@ class AvilaDomenech2019F():
             m = self.extractFromComponent(component)
             modifiedBlocks += m
         modifiedBlocks = list(set(modifiedBlocks))
-        print(modifiedBlocks)
 
         # Dividing in 32x32 blocks
         blocks32x32 = BlocksImage(watermarked_array, 32, 32)
