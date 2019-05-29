@@ -20,6 +20,7 @@
 \hyphenation{mo-du-la-tion}
 \hyphenation{images}
 \hyphenation{Ho-we-ver}
+\hyphenation{in-co-rrec-tly}
 
 \begin{document}
 %
@@ -178,14 +179,12 @@ For both databases, the proposed method obtains higher values of PSNR compared t
 As a preliminary experiment, two images were taken, one from each database, and tests were performed to obtain the corresponding PSNR by varying the size of the watermark. For this case, the dimensions $8\times 8$, $16\times 16$, $32\times 32$, $64\times 64$, $128\times 128$ and $256\times 256$ pixels were taken as a watermark. As shown in Fig.~\ref{psnrwsize} the proposed method obtains better imperceptibility values for the first five dimensions, only in the sixth is it slightly exceeded by \cite{shivani2017dual}.
 
 \subsection{Tamper detection}
-Tamper area detection capability is evaluated, by modifying the contents of images. We developed our proposed fragile watermarking particularly for integrity images and locating tampered areas. Fig.~\ref{tamper_detection} shows the modified watermarked image by text addition and content removal, and their corresponding tamper detection results.
+Tamper area detection capability is evaluated, by modifying the contents of images. We developed our proposed fragile watermarking particularly for integrity images and locating tampered areas. Fig.~\ref{tamper_detection} shows the modified watermarked image by text addition, word substitution, underline words, content removal, and their corresponding tamper detection results.
 
-The results obtained by \cite{shivani2017dual} are not good, because of the possible modifications, there is a 50\% probability that $\left( \sum_{m=1}^{5}XOR\right)\,  mod.\, 2$ is the same as the watermark bit. On the other hand, both the \cite{liu2018blind} method and the proposed one detect the modifications made in an acceptable way.
-
-In \cite{liu2018blind}, there is a special case, underflow or overflow would occur when the watermarked pixel $p'_i$ is less than 0 or greater than 255 respectively. To solve it, the authors propose to increase or decrease by 1 original pixel value. After that, the embedding algorithm is repeated to generate a new pixel.
+The results obtained by \cite{shivani2017dual} are acceptable. Of the possible modifications, there is a 50\% probability that $\left( \sum_{m=1}^{5}XOR\right)\,  mod.\, 2$ is the same as the watermark bit. Likewise, both the \cite{liu2018blind} method and the proposed one detect the modifications made in an acceptable way.
 
 \subsection{Robustness}
-The bit error rate (BER) is defined as the ratio between the number of incorrectly decoded bits and the total number of bits.
+The robustness is measured as the bit error rate (BER) corresponding to incorrectly formed binary values of the watermark image.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -196,6 +195,7 @@ The bit error rate (BER) is defined as the ratio between the number of incorrect
 	\caption{BER values for watermarked images with JPEG compression (QF=75\%).}
 	\label{ber75}
 \end{figure}
+The main contributions of this paper are of twofold. First is the obtaining of better values of imperceptibility, and the second is the remarkable improvement in the strength when JPEG compression attacks at 75\%, 50\% and 25\% are applied (see Figs. \ref{ber75}-\ref{ber25}). Similar to the PSNR, a preliminary experiment, using the same two images, was performed to obtain the corresponding BER by varying the size of the watermark.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -215,9 +215,7 @@ The bit error rate (BER) is defined as the ratio between the number of incorrect
 	\end{center}
 	\caption{BER values for watermarked images with JPEG compression (QF=25\%).}
 	\label{ber25}
-\end{figure}
-
-The bit error rate (BER) is defined as the ratio between the number of incorrectly decoded bits and the total number of bits.
+\end{figure} 
 
 \begin{figure}
 	\begin{center}
@@ -225,6 +223,7 @@ The bit error rate (BER) is defined as the ratio between the number of incorrect
 		\caption{BER behavior to mark the image ``csg562-003.jpg'' of Saint Gall database with watermarks of different sizes when no attack is applied, a JPEG compression is performed with QF = 75\%, 50\% and 25\% respectively.} \label{berwsizeSaintGall}
 	\end{center}
 \end{figure}
+
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=1.1\textwidth]{BERwsizeParzival.eps}
@@ -233,7 +232,7 @@ The bit error rate (BER) is defined as the ratio between the number of incorrect
 \end{figure}
 
 \section{Conclusions}
-In this paper, a dual digital watermarking technique based on Krawtchouk moments and MD5 hash function was implemented. The results show a BER less than ... In addition, the values corresponding to the PSNR were improved compared to previously presented papers.
+In this paper, a dual watermarking technique based on Krawtchouk moments and MD5 hash function was implemented. The experimental results show that our scheme is robust to JPEG compression attacks. In addition, the values corresponding to the PSNR were improved compared to previously presented papers.
 %
 % ---- Bibliography ----
 %
