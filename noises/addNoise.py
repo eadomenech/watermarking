@@ -23,7 +23,7 @@ def main():
         root.destroy()
         
         # Text addition
-        noised_image = noises.copyRectangle(noised_image, 2035, 400, 2235, 2500, 3470, 400)
+        noised_image = noises.copyRectangle(noised_image, 2034, 400, 2234, 2500, 3470, 400)
 
         # Content removal
         noised_image = noises.copyRectangle(noised_image, 1180, 2500, 1470, 2690, 1180, 2280)
