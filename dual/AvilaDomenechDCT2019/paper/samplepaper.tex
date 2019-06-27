@@ -38,112 +38,135 @@ Alberto Taboada-Crispi\inst{2}\orcidID{0000-0002-7797-1441}}
 %
 \begin{abstract}
 The abstract should briefly summarize the contents of the paper in
-150--250 words.
+150--250 words. Digital image watermarking is a powerful tool to secure digital image. In the present work, two digital image watermarking techniques based on Krawtchouk moments and Discrete Cosine Transform have been elaborated and compared. The comparative study is based on the values of the PSNR and BER.
 
 \keywords{First keyword  \and Second keyword \and Another keyword.}
 \end{abstract}
 %
 %
 %
-\section{First Section}
+\section{Introduction}
 \subsection{A Subsection Sample}
-Please note that the first paragraph of a section or subsection is
-not indented. The first paragraph that follows a table, figure,
-equation etc. does not need an indent, either.
+The rest of the paper is organized as follow; Section 2 describes the proposed method including robust watermarking and fragile watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
-Subsequent paragraphs, however, are indented.
+\section{Proposed methods}
 
-\subsubsection{Sample Heading (Third Level)} Only two levels of
-headings should be numbered. Lower level headings remain unnumbered;
-they are formatted as run-in headings.
+\subsection{General framework}
+General framework
 
-\paragraph{Sample Heading (Fourth Level)}
-The contribution should contain no more than four levels of
-headings. Table~\ref{tab1} gives a summary of all heading levels.
-
-\begin{table}
-\caption{Table captions should be placed above the
-tables.}\label{tab1}
-\begin{tabular}{|l|l|l|}
-\hline
-Heading level &  Example & Font size and style\\
-\hline
-Title (centered) &  {\Large\bfseries Lecture Notes} & 14 point, bold\\
-1st-level heading &  {\large\bfseries 1 Introduction} & 12 point, bold\\
-2nd-level heading & {\bfseries 2.1 Printing Area} & 10 point, bold\\
-3rd-level heading & {\bfseries Run-in Heading in Bold.} Text follows & 10 point, bold\\
-4th-level heading & {\itshape Lowest Level Heading.} Text follows & 10 point, italic\\
-\hline
-\end{tabular}
-\end{table}
-
-
-\noindent Displayed equations are centered and set on a separate
-line.
+\subsection{Arnold transform}
+The Arnold transform is a invertible method that can be used for pixel scrambling, and has been adopted in various watermarking schemes. By using the Arnold transform, the high pixel correlation can be disrupted. The Arnold transform is shown in Eq.~\ref{Arnold}, where $p$ and $q$ are positive integers, $det(A) = 1$, and $(x', y')$ are the new coordinates of the pixel after Arnold transform is applied to a pixel at position $(x, y)$ \cite{Chow2017}. The
+transform changes the position of two pixels, and if it is done several times, a disordered image can be generated. Because of Arnold transform of periodicity, the original image will be recovered.
 \begin{equation}
-x + y = z
+\left[\begin{array}{c}x'\\y'\end{array}\right]=A\left[\begin{array}{c}x\\y\end{array}\right]\ mod\ N=\left[\begin{array}{cc}1 & p\\q & pq+1\end{array}\right]\left[\begin{array}{c}x\\y\end{array}\right]\ mod\ N.
+\label{Arnold}
 \end{equation}
-Please try to avoid rasterized images for line-art diagrams and
-schemas. Whenever possible, use vector graphics instead (see
-Fig.~\ref{fig1}).
 
-\begin{figure}
-\includegraphics[width=\textwidth]{fig1.eps}
-\caption{A figure caption is always placed below the illustration.
-Please note that short captions are centered, while long ones are
-justified by the macro package automatically.} \label{fig1}
-\end{figure}
+\subsection{Dither modulation quantization}
+Dither modulation quantization technique is one of the most popular in the watermarking. It has good performance on following requirements of watermarking: perceptibility ratio, data payload, robustness, and blind extraction. The combination of dither modulation quantization with different transformation domain watermarking methods also improves watermark extraction capability \cite{chen2001quantization}. 
 
+One bit of the watermark can be embedded as
+\begin{equation}
+|C{}_{0}^{'}(k_{1},k_{2})|=\begin{cases}
+2\Delta\times round(\frac{|C{}_{0}(k_{1},k_{2})|}{2\Delta})+\frac{\Delta}{2}, & if\:W(i,j)=1\\
+2\Delta\times round(\frac{|C{}_{0}(k_{1},k_{2})|}{2\Delta})-\frac{\Delta}{2} & if\:W(i,j)=0
+\end{cases},
+\label{DMEm}
+\end{equation}
+where $\Delta$ is the quantization step controlling the embedding strength of the watermark bit, $|\cdot|$ is the absolute operator, $round(\cdot)$ denotes the rounding operation to the nearest integer, $W(i,j)$ is the watermark bit at the position $(i,j)$ and $C{}_{0}^{'}(k_{1},k_{2})$ is the modified block.
+
+To extract the watermark it is used
+\begin{equation}
+W^{*}(i,j)=arg_{\sigma\in\{0,1\}}min(|C_{0}^{''}(k_{1},k_{2})|_{\sigma}-|C_{0}^{*}(k_{1},k_{2})|)
+\label{DMEx},
+\end{equation}
+where $C_{0}^{*}(k_{1},k_{2})$ is the extracted watermark and $|C_{0}^{''}(k_{1},k_{2})|_{\sigma}$ is defined as
+\begin{equation}
+|C_{0}^{''}(k_{1},k_{2})|_{\sigma}=\begin{cases}
+2\Delta\times round(\frac{|C_{0}^{*}(k_{1},k_{2})|}{2\Delta})+\frac{\Delta}{2}, & if\:\sigma=1\\
+2\Delta\times round(\frac{|C_{0}^{*}(k_{1},k_{2})|}{2\Delta})-\frac{\Delta}{2} & if\:\sigma=0
+\end{cases}.
+\end{equation}
+
+\subsection{Krawtchouk moments}
+The Krawtchouk moments were introduced by Yap in \cite{Yap2003}. These orthogonal moments satisfy the following recurrence relation
+\begin{multline*}
+\alpha_n(Np-2np+n-x)\overline{K}_{n}^{p,N}(x) \\= p(n-N)\overline{K}_{n+1}^{p,N}(x)+\beta_n n(1-p)\overline{K}_{n-1}^{p,N}(x),\quad n\geq 1,
+\end{multline*}
+with initial conditions 
+\begin{equation*}
+\overline{K}_{0}^{p,N}(x) = \sqrt{w^{p,N}(x)p^{-1}},
+\end{equation*}	
+and
+\begin{equation*}
+\overline{K}_{1}^{p,N}(x) = (Np-x)(Np)^{-1}\sqrt{w^{p,N}(x)(1-p)(Np)^{-1}},
+\end{equation*}
+where $\alpha_n = \sqrt{\frac{(1-p)(n+1)}{p(N-n)}}$, $\beta_n = \sqrt{\frac{(1-p)^2(n+1)n}{p^2(N-n)_2}}$, $w^{p,N}(x) = \binom{N}{x}p^x(1-p)^{N-x}$ and $0<p<1$.
+
+The Krawtchouk moment of order $(m+n)$ of an image $f(x,y)$ with $M\times N$ pixels is defined as
+
+\begin{equation}
+K_{mn}=\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)\overline{K}_{m}^{p,M}(x)\overline{K}_{n}^{q,N}(y),
+\label{DKT}
+\end{equation}
+where $m\in \left[ 0,M-1\right] $ and $n\in \left[ 0,N-1\right] $.
+
+The image $f(x,y)$ can be reconstructed using
+\begin{equation}
+f(x,y)=\sum_{m=0}^{M-1}\sum_{n=0}^{N-1}K_{mn}\overline{K}_{m}^{p,M}(x)\overline{K}_{n}^{q,N}(y),
+\label{IDKT}
+\end{equation}
+where $x\in \left[ 0,M-1\right] $ and $y\in \left[ 0,N-1\right] $.
+
+The lower order Krawtchouk moments store information of a specific region-of-interest of an image, the higher order moments store information of the rest of the image. Therefore, by reconstructing the image from the lower order moments and discarding the higher order moments, a sub-image can be extracted from the subject image. For each additional moment used in reconstructing the image, the square error of the reconstructed image is reduced \cite{Yap2003}.
+
+The set of lower order Krawtchouk moments is generally the set of perceptually significant components of the image. This choice ensures that the watermark is robust to attacks \cite{Yap2004}.
+
+\subsection{Transformada de Coseno Discreta}
+La DCT es una transformada basada en la Transformada de Fourier Discreta (DFT), pero utilizando únicamente números reales. En imágenes, generalmente no se aplica a la imagen de forma directa, sino que primeramente se divide dicha imagen en bloques y luego se aplica la transformada a cada bloque, resultando una matriz dividida en bandas de baja, media y altas frecuencias. Si se posee una imagen de tamaño NxN las ecuaciones utilizadas para calcular la DCT y su inversa (IDCT) son las siguientes: 
+
+\begin{equation}
+D(u,v)=b(u)b(v)\sum_{x=0}^{N-1}\sum_{y=0}^{N-1}f(x,y)\cos\left[\frac{\left(2x+1\right)u\pi}{2N}\right]\cos\left[\frac{\left(2y+1\right)v\pi}{2N}\right]
+\end{equation}
+
+\begin{equation}
+f(x,y)=\sum_{x=0}^{N-1}\sum_{y=0}^{N-1}b(u)b(v)D(u,v)\cos\left[\frac{\left(2x+1\right)u\pi}{2N}\right]\cos\left[\frac{\left(2y+1\right)v\pi}{2N}\right]
+\end{equation}
+donde $D$ representa los coeficientes de la DCT de la imagen y $f$ representa la función obtenida al aplicar la IDCT. Además se define que: 
+
+\begin{equation}
+b(u)=\begin{cases}
+\frac{1}{\sqrt{N}} & ,u=0\\
+\sqrt{\frac{2}{N}} & ,1\leq u\leq N-1
+\end{cases}
+\end{equation}
+
+\begin{equation}
+b(v)=\begin{cases}
+\frac{1}{\sqrt{N}} & ,v=0\\
+\sqrt{\frac{2}{N}} & ,1\leq v\leq N-1
+\end{cases}
+\end{equation}
+
+El primer coeficiente de la matriz obtenida al aplicar la DCT a un bloque (coeficiente DC) es simplemente el promedio
+de los restantes coeficientes del bloque. Los restantes coeficientes representan sucesivamente de forma creciente las frecuencias.
+
+\section{Experiments and Results}
 \begin{theorem}
 This is a sample theorem. The run-in heading is set in bold, while
 the following text appears in italics. Definitions, lemmas,
 propositions, and corollaries are styled the same way.
 \end{theorem}
-%
-% the environments 'definition', 'lemma', 'proposition', 'corollary',
-% 'remark', and 'example' are defined in the LLNCS documentclass as well.
-%
-\begin{proof}
-Proofs, examples, and remarks have the initial word in italics,
-while the following text appears in normal font.
-\end{proof}
-For citations of references, we prefer the use of square brackets
-and consecutive numbers. Citations using labels or the author/year
-convention are also acceptable. The following bibliography provides
-a sample reference list with entries for journal
-articles~\cite{ref_article1}, an LNCS chapter~\cite{ref_lncs1}, a
-book~\cite{ref_book1}, proceedings without editors~\cite{ref_proc1},
-and a homepage~\cite{ref_url1}. Multiple citations are grouped
-\cite{ref_article1,ref_lncs1,ref_book1},
-\cite{ref_article1,ref_book1,ref_proc1,ref_url1}.
-%
+
+\section{Conclusions}
+This work provides an innovative image watermarking scheme in two transform domains Krawtchouk moments and DCT. Both the domains are good enough.
+
 % ---- Bibliography ----
 %
 % BibTeX users should specify bibliography style 'splncs04'.
 % References will then be sorted and formatted in the correct style.
 %
-% \bibliographystyle{splncs04}
-% \bibliography{mybibliography}
+\bibliographystyle{splncs04}
+\bibliography{mybibliography}
 %
-\begin{thebibliography}{8}
-\bibitem{ref_article1}
-Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
-
-\bibitem{ref_lncs1}
-Author, F., Author, S.: Title of a proceedings paper. In: Editor,
-F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1--13.
-Springer, Heidelberg (2016). \doi{10.10007/1234567890}
-
-\bibitem{ref_book1}
-Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
-Location (1999)
-
-\bibitem{ref_proc1}
-Author, A.-B.: Contribution title. In: 9th International Proceedings
-on Proceedings, pp. 1--2. Publisher, Location (2010)
-
-\bibitem{ref_url1}
-LNCS Homepage, \url{http://www.springer.com/lncs}. Last accessed 4
-Oct 2017
-\end{thebibliography}
 \end{document}
