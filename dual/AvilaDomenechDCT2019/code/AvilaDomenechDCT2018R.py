@@ -5,7 +5,7 @@ from helpers import utils
 from qr_tools.MyQR62 import MyQR62
 
 from transforms.DAT import DAT
-from transforms.DqKT import DqKT
+from transforms.Scipy_DCT import DCT
 
 from PIL import Image
 from pathlib import Path
@@ -44,15 +44,18 @@ class AvilaDomenechDCT2018R():
         self.watermark_list = []
         for p in watermark_as_list:
             if p:
-                self.watermark_list.append(0)
-            else:
                 self.watermark_list.append(255)
+            else:
+                self.watermark_list.append(0)
         
         # Calculando datos iniciales
         self.len_watermark_list = len(self.watermark_list)
 
         # Posiciones seleccionadas
         self.pos = []
+
+        # Valores de coeficiente y delta optimo para el bloque
+        (self.c, self.delta) = (36, 90) 
     
     def generar(self, maximo):
         '''Genera posiciones a utilizar en el marcado'''
@@ -112,39 +115,30 @@ class AvilaDomenechDCT2018R():
         for i in range(self.len_watermark_list):
             block = bt_of_cover.get_block(self.pos[i])
 
-            # Valores de coeficiente y delta optimo para el bloque
-            (c, delta) = (19, 128) 
+            # Calculando DCT
+            dct_block = DCT().dct2(block)
 
-            # Calculando Krawchout Transform
-            dqkt_block = DqKT().dqkt2(block)
+            c = self.c
+            delta = self.delta
 
-            negative = False
+            # negative = False
             (px, py) = self.get_indice(c)
-            if dqkt_block[px, py] < 0:
-                negative = True
+            # if dct_block[px, py] < 0:
+            #     negative = True
 
             if self.watermark_list[i % self.len_watermark_list] == 0:
                 # Bit a insertar 0
-                dqkt_block[px, py] = 2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) + delta/2.0
+                dct_block[px, py] = 2*delta*round(abs(dct_block[px, py])/(2.0*delta)) - delta/2.0
             else:
                 # Bit a insertar 1
-                dqkt_block[px, py] = 2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) - delta/2.0
+                dct_block[px, py] = 2*delta*round(abs(dct_block[px, py])/(2.0*delta)) + delta/2.0
 
-            if negative:
-                dqkt_block[px, py] *= -1
-            idqkt_block = DqKT().idqkt2(dqkt_block)
-            inv = idqkt_block
-            for x in range(8):
-                for y in range(8):
-                    if (inv[x, y] - int(inv[x, y])) < 0.5:
-                        inv[x, y] = int(inv[x, y])
-                    else:
-                        inv[x, y] = int(inv[x, y]) + 1
-                    if inv[x, y] > 255:
-                        inv[x, y] = 255
-                    if inv[x, y] < 0:
-                        inv[x, y] = 0
-            bt_of_cover.set_block(idqkt_block, self.pos[i])
+            # if negative:
+            #     dct_block[px, py] *= -1
+
+            idct_block = DCT().idct2(dct_block)
+            
+            bt_of_cover.set_block(idct_block, self.pos[i])
 
         print("Convirtiendo a RGB")
         image_rgb_array = itools.ycbcr2rgb(cover_ycbcr_array)
@@ -152,6 +146,9 @@ class AvilaDomenechDCT2018R():
         return Image.fromarray(image_rgb_array)
 
     def extract(self, watermarked_image):
+
+        c = self.c
+        delta = self.delta
 
         print("...Proceso de extraccion...")
 
@@ -173,24 +170,24 @@ class AvilaDomenechDCT2018R():
         # Recorrer todos los bloques de la imagen
         for i in range(self.len_watermark_list):
             block = bt_of_watermarked_Y.get_block(self.pos[i])
-            # Valores de coeficiente y delta optimo para el bloque
-            (c, delta) = (19, 128)
-            dqkt_block = DqKT().dqkt2(np.array(block, dtype=np.float32))
+            
+            dct_block = DCT().dct2(block)
             
             negative = False
             
             (px, py) = self.get_indice(c)           
-            if dqkt_block[px, py] < 0:
+            if dct_block[px, py] < 0:
                 negative = True
             
-            C1 = (2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) + delta/2.0) - abs(dqkt_block[px, py])
+            C1 = (2*delta*round(abs(dct_block[px, py])/(2.0*delta)) + delta/2.0) - abs(dct_block[px, py])
             
-            C0 = (2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) - delta/2.0) - abs(dqkt_block[px, py])
+            C0 = (2*delta*round(abs(dct_block[px, py])/(2.0*delta)) - delta/2.0) - abs(dct_block[px, py])
 
             if negative:
                 C1 *= -1
                 C0 *= -1
-            if C0 < C1:
+
+            if (dct_block[px, py] - C0) < (dct_block[px, py] - C1):
                 extract.append(0)
             else:
                 extract.append(1)

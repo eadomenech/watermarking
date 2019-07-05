@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from AvilaDomenechDCT2019R import AvilaDomenechDCT2019R
+from AvilaDomenechDCT2018R import AvilaDomenechDCT2018R
 
 from tkinter import filedialog
 from tkinter import *
@@ -11,8 +11,8 @@ from evaluations.evaluations import Evaluations
 
 
 def main():
-    # AvilaDomenechDCT2019R Instances
-    wm = AvilaDomenechDCT2019R('password')
+    # AvilaDomenechDCT2018R Instances
+    wm = AvilaDomenechDCT2018R('password')
 
     try:
         # Load cover image
