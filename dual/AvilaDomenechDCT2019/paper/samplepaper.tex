@@ -50,9 +50,13 @@ Los documentos manuscritos atesorados en archivos historicos, bibliotecas y muse
 
 En el proceso de digitalizacion, es importante tener en cuenta la seguridad, pues pueden ser modificados y ser adjudicados a personas de manera ilícita.
 
-To transform an image from spatial domain to frequency domain some authors have made proposals based on DCT \cite{munoz2018robust,wang2018blind}, this is because it has good energy compaction property that is widely used in image compression. Others have been based on Krawtchouk moments \cite{papakostas2014moment,liu2017fractional,Yap2004}.
+Watermarking schemes can be divided into various categories. According to working domain, there are two types of watermarking scheme, spatial domain and frequency domain. The frequency domain schemes are generally considered more robust than the spatial domain schemes; this schemes consist in to transform an image from spatial domain to frequency domain. Some authors have made proposals based on Discrete Cosine Transform (DCT) \cite{munoz2018robust,wang2018blind}, this is because it has good energy compaction property that is widely used in image compression. Others have been based on Krawtchouk moments \cite{liu2017fractional,papakostas2014moment,Yap2004}.
 
-The rest of the paper is organized as follow; Section 2 describes the proposed method including robust watermarking and fragile watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
+On the other hand, for watermark insert process, various techniques are introduced and applied to watermarking schemes such as Spread Spectrum [3], Singular Value Decomposition (SVD) [9, 10, 11, 12, 13, 14] and Quantization Index Modulation (QIM) [5, 6, 7, 8, 14].
+
+In this work, two dual digital image watermarking techniques based on Krawtchouk moments and Discrete Cosine Transform have been elaborated and compared. Both schemes used Dither Modulation Quantization (QIM-DM) and are optimized for handwritten document images. 
+
+The rest of the paper is organized as follow; Section 2 summarize a preliminaries. Section 3 describes the proposed methods including robust watermarking and fragile watermarking. Experimental results are given in Section 4 and Section 5 concludes the paper.
 
 \section{Preliminaries}
 \subsection{Arnold transform}
