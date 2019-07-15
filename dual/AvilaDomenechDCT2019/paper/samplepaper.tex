@@ -17,7 +17,7 @@
 
 \begin{document}
 %
-\title{Comparative approach between Krawtchouk moments and DCT-based dual watermarking for handwritten document images}
+\title{Two Dual Watermarking Based on DCT and Krawtchouk Moments for Handwritten Document Images: A Comparative Analysis}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -30,33 +30,38 @@ Alberto Taboada-Crispi\inst{2}\orcidID{0000-0002-7797-1441}}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
-\institute{Universidad de Granma, Carretera Central v{\'i}a Holgu{\'i}n Km $\frac{1}{2}$, Granma, Cuba \email{\{eadomenech, asorial1983\}@gmail.com}\\ \and
+\institute{Universidad de Granma, Carretera Central v{\'i}a Holgu{\'i}n Km $\frac{1}{2}$, Granma, Cuba \email{eadomenech@gmail.com}\\ \and
 	Universidad Central de Las Villas, Villa Clara, Cuba\\
-	\email{\{ataboada\}@uclv.edu.cu}}
+	\email{ataboada@uclv.edu.cu}}
 %
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-The abstract should briefly summarize the contents of the paper in
-150--250 words. Digital image watermarking is a powerful tool to secure digital image. In the present work, two dual digital image watermarking techniques based on Krawtchouk moments and Discrete Cosine Transform have been elaborated and compared. The comparative study is based on the values of the PSNR and BER.
+Digital image watermarking is a powerful tool to secure digital image. In the present work, two dual digital image watermarking techniques based on DCT and Krawtchouk moments for handwritten document images have been elaborated and compared. In the proposed schemes, we adopt the YCbCr color space for watermark embedding. The comparative study is based on the values of the PSNR and BER. Simulation results demonstrate that the embedded watermarks can be almost fully extracted from the JPEG-compressed images with high compression ratios for both methods.
 
-\keywords{Digital Watermarking  \and Discrete Cosine Transform \and Krawtchouk moments.}
+\keywords{Digital Watermarking  \and DCT \and Handwritten Document Images \and Krawtchouk moments.}
 \end{abstract}
 %
 %
 %
 \section{Introduction}
-Los documentos manuscritos atesorados en archivos historicos, bibliotecas y museos, constituyen una importante fuente de conocimiento e investigación para los historiadores y el público en general. Muchos de estos manuscritos están siendo digitalizados con el objetivo de preservar su integridad física y proveer acceso a una mayor cantidad de persona.
+Handwritten documents hoarded in historical archives, libraries and museums are an important source of knowledge and research for historians and the general public. Many of these manuscripts are being digitized with the aim of preserving their physical integrity and providing access to a greater number of people. In the digitization process, it is important to take into account security, as they can be modified and adjudicated to people illegally.
 
-En el proceso de digitalizacion, es importante tener en cuenta la seguridad, pues pueden ser modificados y ser adjudicados a personas de manera ilícita.
+Digital watermarking is an important research branch of information hiding, which can be used for protect the multimedia digital data for example copyright protection, content verification and tamper detection.
 
-Watermarking schemes can be divided into various categories. According to working domain, there are two types of watermarking scheme, spatial domain and frequency domain. The frequency domain schemes are generally considered more robust than the spatial domain schemes; this schemes consist in to transform an image from spatial domain to frequency domain. Some authors have made proposals based on Discrete Cosine Transform (DCT) \cite{munoz2018robust,wang2018blind}, this is because it has good energy compaction property that is widely used in image compression. Others have been based on Krawtchouk moments \cite{liu2017fractional,papakostas2014moment,Yap2004}.
+Watermarking methods have been proposed for various image content and since the various types of content each have their own characteristics, a watermarking technique should be designed that takes account of their characteristics \cite{kang2018spherical}. That is why we are motivated to investigate a dual watermarking method taking into account the characteristics of the images corresponding to handwritten documents.
 
-On the other hand, for watermark insert process, various techniques are introduced and applied to watermarking schemes such as Spread Spectrum [3], Singular Value Decomposition (SVD) [9, 10, 11, 12, 13, 14] and Quantization Index Modulation (QIM) [5, 6, 7, 8, 14].
+Digital watermarking schemes can be divided according to working domain into spatial domain and frequency domain.
 
-In this work, two dual digital image watermarking techniques based on Krawtchouk moments and Discrete Cosine Transform have been elaborated and compared. Both schemes used Dither Modulation Quantization (QIM-DM) and are optimized for handwritten document images. 
+Spatial image watermarking techniques are commonly used in steganographic contexts because, hiding data into the least significant bits of an image can allow to embed a large quantity of data. Either it is useful in fragile schemes to determine the ownership integrity. However, the watermark will not be robust to common manipulations, e.g., JPEG compression \cite{cardamone2018dwt}.
 
-The rest of the paper is organized as follow; Section 2 summarize a preliminaries. Section 3 describes the proposed methods including robust watermarking and fragile watermarking. Experimental results are given in Section 4 and Section 5 concludes the paper.
+The frequency domain schemes are generally considered more robust than the spatial domain schemes; this schemes consist in to transform an image from spatial domain to frequency domain. Some authors have made proposals based on Discrete Cosine Transform (DCT) \cite{munoz2018robust,wang2018blind}, this is because it has good energy compaction property that is widely used in image compression. Others have been based on Discrete Wavelet Transform (DWT) \cite{cardamone2018dwt} because assures good robustness against the most popular image manipulations such that rotation, translation and image cropping; and others, have been based on Krawtchouk moments \cite{avila2018watermarking,liu2017fractional,papakostas2014moment,Yap2004} because local image features can be located and described.
+
+On the other hand, for digitized images to be safely and efficiently transmitted on the Internet, watermarked images should be particularly robust to JPEG compression because is the image standard compression which is popularly used in Internet.
+
+In this work, two dual digital image watermarking techniques based on DCT and Krawtchouk moments have been elaborated and compared. Both schemes used Dither Modulation Quantization (QIM-DM) and are optimized for handwritten document images. 
+
+The rest of the paper is organized as follow; Section 2 summarize a preliminaries. Section 3 describes the proposed methods including robust watermarking and fragile watermarking. Our experimental results and discussion, especially on JPEG compression with high compression ratios are given in Section 4 and Section 5 concludes the paper.
 
 \section{Preliminaries}
 \subsection{Arnold transform}
@@ -65,7 +70,6 @@ The Arnold transform is a invertible method that can be used for pixel scramblin
 \left[\begin{array}{c}x'\\y'\end{array}\right]=A\left[\begin{array}{c}x\\y\end{array}\right]\ mod\ N=\left[\begin{array}{cc}1 & p\\q & pq+1\end{array}\right]\left[\begin{array}{c}x\\y\end{array}\right]\ mod\ N.
 \label{Arnold}
 \end{equation}
-
 \subsection{Dither modulation quantization}
 Dither modulation is an extension of traditional QIM algorithm proposed in \cite{chen2001quantization}. It has good performance on following requirements of watermarking: perceptibility ratio, data payload, robustness, and blind extraction. The combination of dither modulation quantization with different transformation domain watermarking methods also improves watermark extraction capability. The scheme has been applied successfully in watermarking algorithms \cite{avila2018watermarking,deng2009local,papakostas2014moment,zhu2016optimal}.
 
@@ -91,9 +95,31 @@ where $W^{*}(i,j)$ is the extracted watermark, $C_{0}^{*}(k_{1},k_{2})$ the elem
 2\Delta\times round(\frac{|C_{0}^{*}(k_{1},k_{2})|}{2\Delta})-\frac{\Delta}{2} & if\:\sigma=0
 \end{cases}.
 \end{equation}
+\subsection{Discrete Cosine Transform (DCT)}
+The DCT \cite{ahmed1974discrete} is a transform based on the Discrete Fourier Transform (DFT), but using only real numbers. Generally it is not applied to the image directly, but first that image is divided into blocks and then the transformation is applied to each block, resulting in a matrix divided into bands of low, medium and high frequencies. For an image of size $N\times N$ the equations used to calculate the DCT and its inverse (IDCT) are the following:
+\begin{equation}
+D(u,v)=b(u)b(v)\sum_{x=0}^{N-1}\sum_{y=0}^{N-1}f(x,y)\cos\left[\frac{\left(2x+1\right)u\pi}{2N}\right]\cos\left[\frac{\left(2y+1\right)v\pi}{2N}\right]
+\end{equation}
+\begin{equation}
+f(x,y)=\sum_{x=0}^{N-1}\sum_{y=0}^{N-1}b(u)b(v)D(u,v)\cos\left[\frac{\left(2x+1\right)u\pi}{2N}\right]\cos\left[\frac{\left(2y+1\right)v\pi}{2N}\right]
+\end{equation}
+where $D$ represents the coefficients of the DCT of the image and $f$ represents the function obtained when applying the IDCT. It is also defined that:
+\begin{equation}
+b(u)=\begin{cases}
+\frac{1}{\sqrt{N}} & ,u=0\\
+\sqrt{\frac{2}{N}} & ,1\leq u\leq N-1
+\end{cases}
+\end{equation}
+\begin{equation}
+b(v)=\begin{cases}
+\frac{1}{\sqrt{N}} & ,v=0\\
+\sqrt{\frac{2}{N}} & ,1\leq v\leq N-1
+\end{cases}
+\end{equation}
+The first coefficient of the matrix obtained when applying the DCT to a block (DC coefficient) is simply the average of the remaining coefficients of the block. The remaining coefficients represent successively increasing frequencies.
 
 \subsection{Krawtchouk moments}
-The Krawtchouk moments were introduced by Yap in \cite{Yap2003}. These orthogonal moments satisfy the following recurrence relation
+Yap in \cite{Yap2003} introduced the Krawtchouk transform (also known as Krawtchouk moments). These orthogonal moments satisfy the following recurrence relation
 \begin{multline*}
 \alpha_n(Np-2np+n-x)\overline{K}_{n}^{p,N}(x) \\= p(n-N)\overline{K}_{n+1}^{p,N}(x)+\beta_n n(1-p)\overline{K}_{n-1}^{p,N}(x),\quad n\geq 1,
 \end{multline*}
@@ -125,38 +151,10 @@ where $x\in \left[ 0,M-1\right] $ and $y\in \left[ 0,N-1\right] $.
 The lower order Krawtchouk moments store information of a specific region-of-interest of an image, the higher order moments store information of the rest of the image. Therefore, by reconstructing the image from the lower order moments and discarding the higher order moments, a sub-image can be extracted from the subject image. For each additional moment used in reconstructing the image, the square error of the reconstructed image is reduced \cite{Yap2003}.
 
 The set of lower order Krawtchouk moments is generally the set of perceptually significant components of the image. This choice ensures that the watermark is robust to attacks \cite{Yap2004}.
-
-\subsection{Discrete Cosine Transform (DCT)}
-The DCT \cite{ahmed1974discrete} is a transform based on the Discrete Fourier Transform (DFT), but using only real numbers. Generally it is not applied to the image directly, but first that image is divided into blocks and then the transformation is applied to each block, resulting in a matrix divided into bands of low, medium and high frequencies. For an image of size $N\times N$ the equations used to calculate the DCT and its inverse (IDCT) are the following: 
-
-\begin{equation}
-D(u,v)=b(u)b(v)\sum_{x=0}^{N-1}\sum_{y=0}^{N-1}f(x,y)\cos\left[\frac{\left(2x+1\right)u\pi}{2N}\right]\cos\left[\frac{\left(2y+1\right)v\pi}{2N}\right]
-\end{equation}
-
-\begin{equation}
-f(x,y)=\sum_{x=0}^{N-1}\sum_{y=0}^{N-1}b(u)b(v)D(u,v)\cos\left[\frac{\left(2x+1\right)u\pi}{2N}\right]\cos\left[\frac{\left(2y+1\right)v\pi}{2N}\right]
-\end{equation}
-where $D$ represents the coefficients of the DCT of the image and $f$ represents the function obtained when applying the IDCT. It is also defined that: 
-
-\begin{equation}
-b(u)=\begin{cases}
-\frac{1}{\sqrt{N}} & ,u=0\\
-\sqrt{\frac{2}{N}} & ,1\leq u\leq N-1
-\end{cases}
-\end{equation}
-
-\begin{equation}
-b(v)=\begin{cases}
-\frac{1}{\sqrt{N}} & ,v=0\\
-\sqrt{\frac{2}{N}} & ,1\leq v\leq N-1
-\end{cases}
-\end{equation}
-
-The first coefficient of the matrix obtained when applying the DCT to a block (DC coefficient) is simply the average of the remaining coefficients of the block. The remaining coefficients represent successively increasing frequencies.
-
 \section{Dual watermarking techniques}
 Dual watermarking implies embedding of fragile as well as robust watermarks into the same cover image. It facilitates integration of image authentication and copyright protection into the same scheme. First robust watermarking and then the fragile watermarking should be done because the fragile watermarking is sensitive to small changes. Unlike the fragile watermarking, the robust one resists changes caused by performing the fragile watermarking.
 
+\subsection{Common scheme}
 The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists of considering any binary image as a watermark. In the previous work only a QR code was considered as a watermark, so it was possible a restructuring of the extracted watermark making use of the characteristics related to the QR codes.
 \begin{figure}
 	\begin{center}
@@ -167,66 +165,79 @@ The robust watermarking method proposed is similar to the one proposed in \cite{
 \end{figure}
 
 The following steps are taken during the embedding process:
-\begin{enumerate}
-	\item The binary watermark image is scrambled using Arnold Transform (see Eq.~\ref{Arnold}).
-	\item The cover image is transformed from RGB to YCbCr color space, and the Y component, corresponding to the luminance information, is divided into small image blocks of $8\times 8$ pixels.
-	\item A number of blocks equal to the number of bits to be inserted is selected from a given key.
-	\item The Krawtchouk moments \cite{Yap2003} of the selected blocks are determined.
-	\item Watermark bit is embedded in the selected block moments using Dither modulation \cite{chen2001quantization}. The values 19 and 128 are used as the coefficient and embedding strength values respectively. Watermarked blocks can be obtained. 
-	\item The YCbCr to RGB color space is transformed to obtain RGB watermarked image.
-\end{enumerate}
+\begin{description}
+	\item[Step 1:] The binary watermark image is scrambled using Eq.~\ref{Arnold}.
+	\item[Step 2:] The cover image is transformed from RGB to YCbCr color space because RGB color space is highly correlated and is not suitable for robust watermarking applications.
+	\item[Step 3:] The Y component, corresponding to the luminance information in YCbCr color space, is divided into non-overlapping image blocks of $8\times 8$ pixels. We select the Y component because human visual system is more sensitive to luminance than to the other two chrominance components and the JPEG standard typically use higher density for Y than for the other two components.
+	\item[Step 4:] A number of blocks equal to the number of bits to be inserted is selected from a given key.
+	\item[Step 5:] Each selected blocks are transform from spatial domain to frequency domain. The coefficients $p(u,v)$ of the 2-D $8\times 8$ transformed matrix are zigzag-scanned into 1-D sequence of 64 coefficients $p(k)$, where $k\in[0,63]$ indicates the zigzag position.
+	\item[Step 6:] Watermark bit is embedded in the $p(c)$ coefficient using Eq.~\ref{DMEm}. The value of $c$ will be in correspondence with the transform to be used. 
+	\item[Step 7:] The YCbCr to RGB color space is transformed to obtain RGB watermarked image.
+\end{description}
 
 For watermark extraction:
-\begin{enumerate}
-	\item The watermarked image is transformed from the RGB to the YCbCr color space and the Y component is divided into $8\times 8$ pixels blocks.
-	\item Some blocks are selected from which they will be extracted from the key used in the embedding process.
-	\item The Krawtchouk moments of the selected blocks are determined.
-	\item Scrambled watermark bits are obtained with the selected blocks moments using Dither modulations.
-	\item Finally, a watermark is constructed with the scrambled bits using Arnold transform.
-\end{enumerate}
+\begin{description}
+	\item[Step 1:] The watermarked image is transformed from the RGB to the YCbCr color space and the Y component is divided into non-overlapping blocks of $8\times 8$ pixels.
+	\item[Step 2:] Some blocks are selected from which they will be extracted from the key used in the embedding process.
+	\item[Step 3:] Each selected blocks are transform from spatial domain to frequency domain and are	zigzag-scanned into 1-D sequence of 64 coefficients.
+	\item[Step 4:] Scrambled watermark bits are obtained using Eq.~\ref{DMEx}.
+	\item[Step 5:] Finally, a watermark is constructed with the scrambled bits using Arnold transform.
+\end{description}
 
-For the process of embedding the fragile watermark for tampered small changes, the following steps are performed each RGB component:
-\begin{enumerate}
-	\item The component is divided into $32\times 32$ non-overlapped blocks.
-	\item 128 pixels of each block are selected by a given key.
-	\item The least significant bit (LSB) of each selected pixel is assigned the value 0.
-	\item The MD5 hash value of the modified block is generated as a watermark.
-	\item The watermark is embedded into the LSB of the selected pixels and a watermarked block image is obtained.  
-\end{enumerate}    
+For the process of embedding the fragile watermark for tampered small changes, the following steps are performed for each RGB component:
+\begin{description}
+	\item[Step 1:] The component is divided into $32\times 32$ non-overlapped blocks.
+	\item[Step 2:] 128 pixels of each block are selected by a given key.
+	\item[Step 3:] The least significant bit (LSB) of each selected pixel is assigned the value 0.
+	\item[Step 4:] The MD5 hash value of the modified block is generated as a watermark.
+	\item[Step 5:] The watermark is embedded into the LSB of the selected pixels and a watermarked block image is obtained.
+\end{description}
 
 Detecting a fragile watermark is the reverse process of embedding watermark, which is used to detect whether the watermarked image has been tampered and what the precise position of the tampered parts is. For this:
-\begin{enumerate}
-	\item The RGB image is divided into $32\times 32$ non-overlapped blocks.
-	\item 128 pixels of each block are selected by a given key.
-	\item Three binary series are formed from the LSBs of the selected pixels.
-	\item The LSBs of each selected pixel are assigned the value 0.
-	\item The MD5 hash value of the modified block is generated and compared with obtained series.
-\end{enumerate}
-
-\subsection{Krawtchouk moments-based dual watermarking}
-The $p$ and $q$ parameters used in Eq.~\ref{DKT} and Eq.~\ref{IDKT} are the parameters of the Krawtchouk polynomials that control their locality behaviour, that define the specific host areas control the horizontal and vertical direction of the watermark localization, respectively. In this work, it was taken $p=q=0.7$.
-\begin{figure} [H]
-	\begin{center}
-		\includegraphics[width=\textwidth]{colormapDKT.eps}
-	\end{center}
-	\caption{Colormap}
-	\label{colormapDKT}
-\end{figure}
+\begin{description}
+	\item[Step 1:] The RGB image is divided into $32\times 32$ non-overlapped blocks.
+	\item[Step 2:] 128 pixels of each block are selected by a given key.
+	\item[Step 3:] Three binary series are formed from the LSBs of the selected pixels.
+	\item[Step 4:] The LSBs of each selected pixel are assigned the value 0.
+	\item[Step 5:] The MD5 hash value of the modified block is generated and compared with obtained series.
+\end{description}
 
 \subsection{DCT-based dual watermarking}
-\begin{figure} [H]
+In the DCT-based scheme is used the coefficient $p(1)$ in zigzag order, corresponding to the position $(0, 1)$ in the block, because the most number of blocks are concentrated in said coefficient (see Fig.~\ref{colormapDCT}); partly because low frequencies hold the most significant information of the image and not affected by the quantitative method of JPEG algorithm.
+\begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=\textwidth]{colormapDCT.eps}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{colormapDCT.eps}
+			&\includegraphics[width=0.5\textwidth]{coefDCT.eps}\\\hline
+		\end{tabular}
 	\end{center}
-	\caption{Colormap}
+	\caption{Quantity of blocks by coefficients where better quality parameters are obtained.}
 	\label{colormapDCT}
 \end{figure}
 
+\subsection{Krawtchouk moments-based dual watermarking}
+Unlike DCT-based scheme, in Krawtchouk moments-based watermarking we used $p(19)$, corresponding to the position $(4, 1)$ in the block.
+ 
+The $p$ and $q$ parameters used in Eq.~\ref{DKT} and Eq.~\ref{IDKT} are the parameters of the Krawtchouk polynomials that control their locality behaviour, that define the specific host areas control the horizontal and vertical direction of the watermark localization, respectively. In this work, it was taken $p=q=0.7$.
+\begin{figure}[H]
+	\begin{center}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{colormapDKT.eps}
+			&\includegraphics[width=0.5\textwidth]{coefDKT.eps}\\\hline
+		\end{tabular}
+	\end{center}
+	\caption{Quantity of blocks by coefficients where better quality parameters are obtained.}
+	\label{colormapDKT}
+\end{figure}
+
 \section{Experiments and Results}
-We used two handwriten document image databases: Saint Gall \cite{fischer2011transcription} and Parzival \cite{fischer2009automatic} database. The first one contains manuscripts from the 9th century using Carolingian scripts by a single writer, while the Parzival is compiled from 13th century Gothic scripts \cite{pastor2016complete}.
+To verify the performance of the proposed algorithm, the imperceptibility, robustness and tamper detection are tested in Python 3.7.1 using Anaconda 4.6.14. We used two handwriten document image databases: Saint Gall \cite{fischer2011transcription} and Parzival \cite{fischer2009automatic} database and compressed into JPEG images with the
+quality factor (QF) of 75, 50 and 25. The first one contains manuscripts from the 9th century using Carolingian scripts by a single writer, while the Parzival is compiled from 13th century Gothic scripts \cite{pastor2016complete}.
 
 \subsection{Imperceptibility}
 We calculated the larger peak signal-to-noise ratio (PSNR) which compares the similarity between the original image $ I $, and the watermarked image $ I_w $. A higher PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
+
+By comparing with the algorithms proposed by \cite{liu2018blind} and \cite{shivani2017dual}, the imperceptibility of the proposed algorithms are verified.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -237,8 +248,18 @@ We calculated the larger peak signal-to-noise ratio (PSNR) which compares the si
 	\caption{PSNR values for Saint Gall and Parzival database watermarked images.}
 	\label{psnr}
 \end{figure}
+\begin{figure}[H]
+	\begin{center}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{comparative_PSNR_saintgall.eps}
+			&\includegraphics[width=0.5\textwidth]{comparative_PSNR_parzival.eps}\\\hline
+		\end{tabular}
+	\end{center}
+	\caption{Comparison with two generic dual watermarking schemes.}
+	\label{psnr1}
+\end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
 			\includegraphics[width=0.5\textwidth]{PSNRwsizeSaintGall.eps}
@@ -258,11 +279,11 @@ The robustness is measured as the bit error rate (BER) corresponding to incorrec
 			&\includegraphics[width=0.5\textwidth]{BER75Parzival.eps}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{BER values for watermarked images with JPEG compression (QF=75\%).}
+	\caption{BER values for watermarked images with JPEG compression (QF=75).}
 	\label{ber75}
 \end{figure}
 
-The main contributions of this paper are of twofold. First is the obtaining of better values of imperceptibility, and the second is the remarkable improvement in the strength when JPEG compression attacks at 75\%, 50\% and 25\% are applied (see Figs. \ref{ber75}-\ref{ber25}). Similar to the PSNR, a preliminary experiment, using the same two images, was performed to obtain the corresponding BER by varying the size of the watermark.
+The main contributions of this paper are of twofold. First is the obtaining of better values of imperceptibility, and the second is the remarkable improvement in the strength when JPEG compression attacks with QF 75, 50 and 25 are applied (see Figs. \ref{ber75}-\ref{ber25}). Similar to the PSNR, a preliminary experiment, using the same two images, was performed to obtain the corresponding BER by varying the size of the watermark.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -270,7 +291,7 @@ The main contributions of this paper are of twofold. First is the obtaining of b
 			&\includegraphics[width=0.5\textwidth]{BER50Parzival.eps}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{BER values for watermarked images with JPEG compression (QF=50\%).}
+	\caption{BER values for watermarked images with JPEG compression (QF=50).}
 	\label{ber50}
 \end{figure}
 \begin{figure}[H]
@@ -280,26 +301,50 @@ The main contributions of this paper are of twofold. First is the obtaining of b
 			&\includegraphics[width=0.5\textwidth]{BER25Parzival.eps}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{BER values for watermarked images with JPEG compression (QF=25\%).}
+	\caption{BER values for watermarked images with JPEG compression (QF=25).}
 	\label{ber25}
 \end{figure} 
 
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=1.1\textwidth]{BERwsizeSaintGall.eps}
-		\caption{BER behavior to mark the image ``csg562-003.jpg'' of Saint Gall database with watermarks of different sizes when no attack is applied, a JPEG compression is performed with QF = 75\%, 50\% and 25\% respectively.} \label{berwsizeSaintGall}
+		\caption{BER behavior to mark the image ``csg562-003.jpg'' of Saint Gall database with watermarks of different sizes when no attack is applied, a JPEG compression is performed with QF = 75, 50 and 25 respectively.} \label{berwsizeSaintGall}
 	\end{center}
 \end{figure}
 
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=1.1\textwidth]{BERwsizeParzival.eps}
-		\caption{BER behavior to mark the image ``d-006.jpg'' of the Parzival database with watermarks of different sizes when no attack is applied, a JPEG compression is performed with QF = 75\%, 50\% and 25\% respectively.} \label{berwsizeParzival}
+		\caption{BER behavior to mark the image ``d-006.jpg'' of the Parzival database with watermarks of different sizes when no attack is applied, a JPEG compression is performed with QF = 75, 50 and 25 respectively.} \label{berwsizeParzival}
 	\end{center}
 \end{figure}
 
+\subsection{Tamper detection}
+\begin{figure}[H]
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}\hline
+			\includegraphics[width=0.25\textwidth]{watermarked_Shivani2017.jpg}
+			&\includegraphics[width=0.25\textwidth]{watermarked_Shivani2017_with_noise.jpg}
+			&\includegraphics[width=0.25\textwidth]{tamper_zone.png}
+			&\includegraphics[width=0.25\textwidth]{tamper_detection_Shivani2017.jpg}\\\hline
+			\includegraphics[width=0.25\textwidth]{watermarked_Liu2018.jpg}
+			&\includegraphics[width=0.25\textwidth]{watermarked_Liu2018_with_noise.jpg}
+			&\includegraphics[width=0.25\textwidth]{tamper_zone.png}
+			&\includegraphics[width=0.25\textwidth]{tamper_detection_Liu2018.jpg}\\\hline
+			\includegraphics[width=0.25\textwidth]{watermarked_proposed.jpg}
+			&\includegraphics[width=0.25\textwidth]{watermarked_proposed_with_noise.jpg}
+			&\includegraphics[width=0.25\textwidth]{tamper_zone.png}
+			&\includegraphics[width=0.25\textwidth]{tamper_detection_proposed.jpg}\\\hline
+		\end{tabular}
+	\end{center}
+	\caption{Watermarked image, modified watermarked, tamper zone and tamper detection corresponding to \cite{shivani2017dual}, \cite{liu2018blind} and proposed scheme.}
+	\label{tamper_detection}
+\end{figure}
+
+Tamper area detection capability is evaluated, by modifying the contents of images. We developed our proposed fragile watermarking particularly for integrity images and locating tampered areas. Fig.~\ref{tamper_detection} shows the modified watermarked image by text addition, word substitution, underline words, content removal, and their corresponding tamper detection results.
+
 \section{Conclusions}
-This work provides an innovative image watermarking scheme in two transform domains Krawtchouk moments and DCT. Both the domains are good enough.
+In this paper, two dual watermarking techniques based on DCT and Krawtchouk moments for handwritten document images have been proposed and compared. Both transforms are good enough. The experimental results show that the proposed algorithms are robust to JPEG compression.
 
 % ---- Bibliography ----
 %
