@@ -41,8 +41,11 @@ def main():
                 os.mkdir(path)
             paths = glob.glob(path + '*.png')
             for num, path in enumerate(paths):
-                Image.open(path).save(
-                    'join/' + clase + '/' + folder + '.' + str(num) + '.png')
+                try:
+                    Image.open(path).save(
+                        'join/' + clase + '/' + folder + '.' + str(num) + '.png')
+                except:
+                    pass
     
     dic_cantidades = {}
     for clase in lista:

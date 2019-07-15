@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+from AvilaDomenech2019F import AvilaDomenech2019F
+from block_tools.blocks_class import BlocksImage
+
+from tkinter import filedialog
+from tkinter import *
+
+from PIL import Image
+import numpy as np
+
+from evaluations.evaluations import Evaluations
+
+
+def main():
+    # AvilaDomenech2019F Instances
+    wm = AvilaDomenech2019F('password')
+
+    try:
+        # Load cover image
+        root = Tk()
+        root.filename = filedialog.askopenfilename(
+            initialdir="static/", title="Select file",
+            filetypes=(("all files", "*.*"),)
+        )
+        watermarked_image = Image.open(root.filename).convert('RGB')
+        root.destroy()
+        wm.extract(watermarked_image).save('static/tamper_detection.png')
+    except Exception as e:
+        root.destroy()
+        print("Error: ", e)
+        print("The image file was not loaded")
+
+
+if __name__ == '__main__':
+    main()

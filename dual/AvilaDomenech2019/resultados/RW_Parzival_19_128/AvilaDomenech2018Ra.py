@@ -5,7 +5,7 @@ from helpers import utils
 from qr_tools.MyQR62 import MyQR62
 
 from transforms.DAT import DAT
-from transforms.Scipy_DCT import DCT
+from transforms.DqKT import DqKT
 
 from PIL import Image
 from pathlib import Path
@@ -15,22 +15,29 @@ import random
 import math
 
 
-class AvilaDomenechDCT2018R():
+class AvilaDomenech2018Ra():
     """
     Método de marca de agua digital robusta
     """
-    def __init__(self, key):
+    def __init__(self, key, watermark):
         
         self.key = key
         
         # Hash of key
         self.binary_hash_key = utils.md5Binary(self.key)
 
-        # Cargando watermark
-        self.watermark = Image.open("static/Watermarking.png").convert("1")
+        # # Cargando watermark
+        # self.watermark = Image.open("static/Watermarking.png").convert("1")
+
+        # Temporal
+        self.watermark = watermark
+
+        self.w_periodicity = DAT().get_periodicity(
+            self.watermark.size[0]
+        )
 
         # Utilizando Arnold Transforms
-        for i in range(20):
+        for i in range(self.w_periodicity  // 2):
             self.watermark = DAT().dat2(self.watermark)
 
         # Obteniendo array de la watermark
@@ -44,18 +51,15 @@ class AvilaDomenechDCT2018R():
         self.watermark_list = []
         for p in watermark_as_list:
             if p:
-                self.watermark_list.append(255)
-            else:
                 self.watermark_list.append(0)
+            else:
+                self.watermark_list.append(255)
         
         # Calculando datos iniciales
         self.len_watermark_list = len(self.watermark_list)
 
         # Posiciones seleccionadas
         self.pos = []
-
-        # Valores de coeficiente y delta optimo para el bloque
-        (self.c, self.delta) = (1, 100) 
     
     def generar(self, maximo):
         '''Genera posiciones a utilizar en el marcado'''
@@ -115,30 +119,39 @@ class AvilaDomenechDCT2018R():
         for i in range(self.len_watermark_list):
             block = bt_of_cover.get_block(self.pos[i])
 
-            # Calculando DCT
-            dct_block = DCT().dct2(block)
+            # Valores de coeficiente y delta optimo para el bloque
+            (c, delta) = (19, 128) 
 
-            c = self.c
-            delta = self.delta
+            # Calculando Krawchout Transform
+            dqkt_block = DqKT().dqkt2(block)
 
-            # negative = False
+            negative = False
             (px, py) = self.get_indice(c)
-            # if dct_block[px, py] < 0:
-            #     negative = True
+            if dqkt_block[px, py] < 0:
+                negative = True
 
             if self.watermark_list[i % self.len_watermark_list] == 0:
                 # Bit a insertar 0
-                dct_block[px, py] = 2*delta*round(abs(dct_block[px, py])/(2.0*delta)) - delta/2.0
+                dqkt_block[px, py] = 2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) + delta/2.0
             else:
                 # Bit a insertar 1
-                dct_block[px, py] = 2*delta*round(abs(dct_block[px, py])/(2.0*delta)) + delta/2.0
+                dqkt_block[px, py] = 2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) - delta/2.0
 
-            # if negative:
-            #     dct_block[px, py] *= -1
-
-            idct_block = DCT().idct2(dct_block)
-            
-            bt_of_cover.set_block(idct_block, self.pos[i])
+            if negative:
+                dqkt_block[px, py] *= -1
+            idqkt_block = DqKT().idqkt2(dqkt_block)
+            inv = idqkt_block
+            for x in range(8):
+                for y in range(8):
+                    if (inv[x, y] - int(inv[x, y])) < 0.5:
+                        inv[x, y] = int(inv[x, y])
+                    else:
+                        inv[x, y] = int(inv[x, y]) + 1
+                    if inv[x, y] > 255:
+                        inv[x, y] = 255
+                    if inv[x, y] < 0:
+                        inv[x, y] = 0
+            bt_of_cover.set_block(idqkt_block, self.pos[i])
 
         print("Convirtiendo a RGB")
         image_rgb_array = itools.ycbcr2rgb(cover_ycbcr_array)
@@ -146,9 +159,6 @@ class AvilaDomenechDCT2018R():
         return Image.fromarray(image_rgb_array)
 
     def extract(self, watermarked_image):
-
-        c = self.c
-        delta = self.delta
 
         print("...Proceso de extraccion...")
 
@@ -170,24 +180,24 @@ class AvilaDomenechDCT2018R():
         # Recorrer todos los bloques de la imagen
         for i in range(self.len_watermark_list):
             block = bt_of_watermarked_Y.get_block(self.pos[i])
-            
-            dct_block = DCT().dct2(block)
+            # Valores de coeficiente y delta optimo para el bloque
+            (c, delta) = (19, 128)
+            dqkt_block = DqKT().dqkt2(np.array(block, dtype=np.float32))
             
             negative = False
             
             (px, py) = self.get_indice(c)           
-            if dct_block[px, py] < 0:
+            if dqkt_block[px, py] < 0:
                 negative = True
             
-            C1 = (2*delta*round(abs(dct_block[px, py])/(2.0*delta)) + delta/2.0) - abs(dct_block[px, py])
+            C1 = (2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) + delta/2.0) - abs(dqkt_block[px, py])
             
-            C0 = (2*delta*round(abs(dct_block[px, py])/(2.0*delta)) - delta/2.0) - abs(dct_block[px, py])
+            C0 = (2*delta*round(abs(dqkt_block[px, py])/(2.0*delta)) - delta/2.0) - abs(dqkt_block[px, py])
 
             if negative:
                 C1 *= -1
                 C0 *= -1
-
-            if (dct_block[px, py] - C0) < (dct_block[px, py] - C1):
+            if C0 < C1:
                 extract.append(0)
             else:
                 extract.append(1)
@@ -204,7 +214,8 @@ class AvilaDomenechDCT2018R():
         # myqr1 = MyQR62()
         
         watermark_extracted = misc.toimage(array_extract_image1)
-        for i in range(10):
+        for i in range(
+                self.w_periodicity  - (self.w_periodicity  // 2)):
             watermark_extracted = DAT().dat2(watermark_extracted)
         
         # # Utilizacion de caracteristica de QR code
