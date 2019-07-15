@@ -49,7 +49,7 @@ Handwritten documents hoarded in historical archives, libraries and museums are 
 
 Digital watermarking is an important research branch of information hiding, which can be used for protect the multimedia digital data for example copyright protection, content verification and tamper detection.
 
-Watermarking methods have been proposed for various image content and since the various types of content each have their own characteristics, a watermarking technique should be designed that takes account of their characteristics \cite{kang2018spherical}. Es por ello que nos sentimos motivados a investigar sobre un metodo dual watermarking teniendo en cuenta las caracteristicas de las imagenes correspondientes a documentos manuscritos.
+Watermarking methods have been proposed for various image content and since the various types of content each have their own characteristics, a watermarking technique should be designed that takes account of their characteristics \cite{kang2018spherical}. That is why we are motivated to investigate a dual watermarking method taking into account the characteristics of the images corresponding to handwritten documents.
 
 Digital watermarking schemes can be divided according to working domain into spatial domain and frequency domain.
 
@@ -57,9 +57,7 @@ Spatial image watermarking techniques are commonly used in steganographic contex
 
 The frequency domain schemes are generally considered more robust than the spatial domain schemes; this schemes consist in to transform an image from spatial domain to frequency domain. Some authors have made proposals based on Discrete Cosine Transform (DCT) \cite{munoz2018robust,wang2018blind}, this is because it has good energy compaction property that is widely used in image compression. Others have been based on Discrete Wavelet Transform (DWT) \cite{cardamone2018dwt} because assures good robustness against the most popular image manipulations such that rotation, translation and image cropping; and others, have been based on Krawtchouk moments \cite{avila2018watermarking,liu2017fractional,papakostas2014moment,Yap2004} because local image features can be located and described.
 
-On the other hand, for watermark insert process, various techniques are introduced and applied to watermarking schemes such as Spread Spectrum [], Singular Value Decomposition (SVD) [] and Quantization Index Modulation (QIM) \cite{avila2018watermarking}.
-
-Furthermore, for digitized images to be safely and efficiently transmitted on the Internet, watermarked images should be particularly robust to JPEG compression because is the image standard compression which is popularly used in Internet.
+On the other hand, for digitized images to be safely and efficiently transmitted on the Internet, watermarked images should be particularly robust to JPEG compression because is the image standard compression which is popularly used in Internet.
 
 In this work, two dual digital image watermarking techniques based on DCT and Krawtchouk moments have been elaborated and compared. Both schemes used Dither Modulation Quantization (QIM-DM) and are optimized for handwritten document images. 
 
@@ -172,8 +170,8 @@ The following steps are taken during the embedding process:
 	\item[Step 2:] The cover image is transformed from RGB to YCbCr color space because RGB color space is highly correlated and is not suitable for robust watermarking applications.
 	\item[Step 3:] The Y component, corresponding to the luminance information in YCbCr color space, is divided into non-overlapping image blocks of $8\times 8$ pixels. We select the Y component because human visual system is more sensitive to luminance than to the other two chrominance components and the JPEG standard typically use higher density for Y than for the other two components.
 	\item[Step 4:] A number of blocks equal to the number of bits to be inserted is selected from a given key.
-	\item[Step 5:] Each selected blocks are transform from spatial domain to frequency domain.
-	\item[Step 6:] Watermark bit is embedded in the selected block using Eq.~\ref{DMEm}.
+	\item[Step 5:] Each selected blocks are transform from spatial domain to frequency domain. The coefficients $p(u,v)$ of the 2-D $8\times 8$ transformed matrix are zigzag-scanned into 1-D sequence of 64 coefficients $p(k)$, where $k\in[0,63]$ indicates the zigzag position.
+	\item[Step 6:] Watermark bit is embedded in the $p(c)$ coefficient using Eq.~\ref{DMEm}. The value of $c$ will be in correspondence with the transform to be used. 
 	\item[Step 7:] The YCbCr to RGB color space is transformed to obtain RGB watermarked image.
 \end{description}
 
@@ -181,8 +179,8 @@ For watermark extraction:
 \begin{description}
 	\item[Step 1:] The watermarked image is transformed from the RGB to the YCbCr color space and the Y component is divided into non-overlapping blocks of $8\times 8$ pixels.
 	\item[Step 2:] Some blocks are selected from which they will be extracted from the key used in the embedding process.
-	\item[Step 3:] Each selected blocks are transform from spatial domain to frequency domain.
-	\item[Step 4:] Scrambled watermark bits are obtained with the selected blocks using Eq.~\ref{DMEx}.
+	\item[Step 3:] Each selected blocks are transform from spatial domain to frequency domain and are	zigzag-scanned into 1-D sequence of 64 coefficients.
+	\item[Step 4:] Scrambled watermark bits are obtained using Eq.~\ref{DMEx}.
 	\item[Step 5:] Finally, a watermark is constructed with the scrambled bits using Arnold transform.
 \end{description}
 
@@ -205,8 +203,7 @@ Detecting a fragile watermark is the reverse process of embedding watermark, whi
 \end{description}
 
 \subsection{DCT-based dual watermarking}
-La mayor cantidad de bloques se concentran en el coeficiente 1 because low frequencies hold
-the most significant information of the image and not affected significantly by the quantization method of JPEG algorithm.
+In the DCT-based scheme is used the coefficient $p(1)$ in zigzag order, corresponding to the position $(0, 1)$ in the block, because the most number of blocks are concentrated in said coefficient (see Fig.~\ref{colormapDCT}); partly because low frequencies hold the most significant information of the image and not affected by the quantitative method of JPEG algorithm.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -214,11 +211,13 @@ the most significant information of the image and not affected significantly by 
 			&\includegraphics[width=0.5\textwidth]{coefDCT.eps}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{Colormap}
+	\caption{Quantity of blocks by coefficients where better quality parameters are obtained.}
 	\label{colormapDCT}
 \end{figure}
 
 \subsection{Krawtchouk moments-based dual watermarking}
+Unlike DCT-based scheme, in Krawtchouk moments-based watermarking we used $p(19)$, corresponding to the position $(4, 1)$ in the block.
+ 
 The $p$ and $q$ parameters used in Eq.~\ref{DKT} and Eq.~\ref{IDKT} are the parameters of the Krawtchouk polynomials that control their locality behaviour, that define the specific host areas control the horizontal and vertical direction of the watermark localization, respectively. In this work, it was taken $p=q=0.7$.
 \begin{figure}[H]
 	\begin{center}
@@ -227,7 +226,7 @@ The $p$ and $q$ parameters used in Eq.~\ref{DKT} and Eq.~\ref{IDKT} are the para
 			&\includegraphics[width=0.5\textwidth]{coefDKT.eps}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{Colormap}
+	\caption{Quantity of blocks by coefficients where better quality parameters are obtained.}
 	\label{colormapDKT}
 \end{figure}
 
@@ -343,8 +342,6 @@ The main contributions of this paper are of twofold. First is the obtaining of b
 \end{figure}
 
 Tamper area detection capability is evaluated, by modifying the contents of images. We developed our proposed fragile watermarking particularly for integrity images and locating tampered areas. Fig.~\ref{tamper_detection} shows the modified watermarked image by text addition, word substitution, underline words, content removal, and their corresponding tamper detection results.
-
-The results obtained by \cite{shivani2017dual} are acceptable. Of the possible modifications, there is a 50\% probability that $\left( \sum_{m=1}^{5}XOR\right)\,  mod.\, 2$ is the same as the watermark bit. Likewise, both the \cite{liu2018blind} method and the proposed one detect the modifications made in an acceptable way.
 
 \section{Conclusions}
 In this paper, two dual watermarking techniques based on DCT and Krawtchouk moments for handwritten document images have been proposed and compared. Both transforms are good enough. The experimental results show that the proposed algorithms are robust to JPEG compression.
