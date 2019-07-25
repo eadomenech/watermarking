@@ -29,18 +29,18 @@ def run_main():
     # PSNR    
     plt.plot(
         (31.529351,31.519621,31.502306,31.479135,31.505231,31.531263),
-        label = '[9]')
+        label = '[15]', color='darkkhaki')
     plt.plot(
         (30.166893,30.166176,30.159806,30.144635,30.077978,29.824320),
-        label = '[6] k=0.4')
+        label = '[10] k=0.4', color='green')
     plt.plot(
-        (30.165325,30.160141,30.126458,30.036129,29.677881,28.460565),
-        label = '[6] k=1.0')
+        (55.733240,51.898748,46.789672,41.007532,34.761880,28.710969,),
+        label = 'DCT-RW + FW', color='blue')
     plt.plot(
         (
             55.473884,52.385674,50.150289,42.793328,36.985080,30.980603
         ),
-        label = 'Proposed')
+        label = 'Krawtchouk-RW + FW', color='red')
     
     # Colocamos las etiquetas para cada distribución
     plt.xticks(

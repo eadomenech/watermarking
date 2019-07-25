@@ -49,7 +49,7 @@ Handwritten documents hoarded in historical archives, libraries and museums are 
 
 Digital watermarking is an important research branch of information hiding, which can be used for protect the multimedia digital data for example copyright protection, content verification and tamper detection.
 
-Watermarking methods have been proposed for various image content and since the various types of content each have their own characteristics, a watermarking technique should be designed that takes account of their characteristics \cite{kang2018spherical}. That is why we are motivated to investigate a dual watermarking method taking into account the characteristics of the images corresponding to handwritten documents.
+Watermarking methods have been proposed for various image content and since the various types of content each have their own characteristics, a watermarking technique should be designed that takes account of their characteristics \cite{kang2018spherical}. That is why we are motivated to propose a dual watermarking methods taking into account the characteristics of the images corresponding to handwritten documents.
 
 Digital watermarking schemes can be divided according to working domain into spatial domain and frequency domain.
 
@@ -61,7 +61,7 @@ On the other hand, for digitized images to be safely and efficiently transmitted
 
 In this work, two dual digital image watermarking techniques based on DCT and Krawtchouk moments have been elaborated and compared. Both schemes used Dither Modulation Quantization (QIM-DM) and are optimized for handwritten document images. 
 
-The rest of the paper is organized as follow; Section 2 summarize a preliminaries. Section 3 describes the proposed methods including robust watermarking and fragile watermarking. Our experimental results and discussion, especially on JPEG compression with high compression ratios are given in Section 4 and Section 5 concludes the paper.
+The rest of the paper is organized as follow; Section 2 summarize a preliminaries. Section 3 describes the proposed methods including robust watermarking and fragile watermarking. Our experimental results and discussion, specifically on JPEG compression with high compression ratios are given in Section 4 and Section 5 concludes the paper.
 
 \section{Preliminaries}
 \subsection{Arnold transform}
@@ -236,8 +236,6 @@ quality factor (QF) of 75, 50 and 25. The first one contains manuscripts from th
 
 \subsection{Imperceptibility}
 We calculated the larger peak signal-to-noise ratio (PSNR) which compares the similarity between the original image $ I $, and the watermarked image $ I_w $. A higher PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
-
-By comparing with the algorithms proposed by \cite{liu2018blind} and \cite{shivani2017dual}, the imperceptibility of the proposed algorithms are verified.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -248,6 +246,9 @@ By comparing with the algorithms proposed by \cite{liu2018blind} and \cite{shiva
 	\caption{PSNR values for Saint Gall and Parzival database watermarked images.}
 	\label{psnr}
 \end{figure}
+
+By comparing with the algorithms proposed by \cite{liu2018blind} and \cite{shivani2017dual}, the imperceptibility of the proposed algorithms are verified.
+
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline

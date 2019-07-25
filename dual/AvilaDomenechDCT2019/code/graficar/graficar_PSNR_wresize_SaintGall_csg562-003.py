@@ -30,19 +30,19 @@ def run_main():
     # ok
     plt.plot(
         (39.132369,39.150086,39.147547,39.164151,39.139622,39.182748),
-        label = '[9]')
+        label = '[15]', color='darkkhaki')
     # ok
     plt.plot(
         (32.855299,32.854757,32.850704,32.839909,32.794834,32.620050),
-        label = '[6] k=0.4')
+        label = '[10] k=0.4', color='green')
     # ok
     plt.plot(
-        (32.854439,32.850239,32.826030,32.761175,32.484046,31.556412),
-        label = '[6] k=1.0')
+        (56.851671,55.636493,53.089555,48.743750,43.323817,37.134046,),
+        label = 'DCT-RW + FW', color='blue')
     # ok
     plt.plot(
         (56.646316,55.110089,53.651019,47.838714,42.110737,36.161967),
-        label = 'Proposed')
+        label = 'Krawtchouk-RW + FW', color='red')
     
     # Colocamos las etiquetas para cada distribución
     plt.xticks(

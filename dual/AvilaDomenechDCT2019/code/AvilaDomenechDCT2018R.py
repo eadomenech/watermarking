@@ -19,18 +19,25 @@ class AvilaDomenechDCT2018R():
     """
     Método de marca de agua digital robusta
     """
-    def __init__(self, key):
+    def __init__(self, key, watermark):
         
         self.key = key
         
         # Hash of key
         self.binary_hash_key = utils.md5Binary(self.key)
 
-        # Cargando watermark
-        self.watermark = Image.open("static/Watermarking.png").convert("1")
+        # # Cargando watermark
+        # self.watermark = Image.open("static/Watermarking.png").convert("1")
+    
+        # Temporal
+        self.watermark = watermark
+
+        self.w_periodicity = DAT().get_periodicity(
+            self.watermark.size[0]
+        )
 
         # Utilizando Arnold Transforms
-        for i in range(20):
+        for i in range(self.w_periodicity  // 2):
             self.watermark = DAT().dat2(self.watermark)
 
         # Obteniendo array de la watermark
@@ -204,7 +211,7 @@ class AvilaDomenechDCT2018R():
         # myqr1 = MyQR62()
         
         watermark_extracted = misc.toimage(array_extract_image1)
-        for i in range(10):
+        for i in range(self.w_periodicity - (self.w_periodicity  // 2)):
             watermark_extracted = DAT().dat2(watermark_extracted)
         
         # # Utilizacion de caracteristica de QR code

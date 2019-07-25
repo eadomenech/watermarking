@@ -5,8 +5,8 @@ from scipy import misc
 
 from evaluations.evaluations import Evaluations
 from block_tools.blocks_class import BlocksImage
-from AvilaDomenech2018Ra import AvilaDomenech2018Ra
-from AvilaDomenech2019F import AvilaDomenech2019F
+from AvilaDomenechDCT2018R import AvilaDomenechDCT2018R
+from AvilaDomenechDCT2019F import AvilaDomenechDCT2019F
 import pwlcm
 import math
 from pathlib import Path
@@ -26,7 +26,7 @@ def image_name(path):
 def run_main():
     eva = Evaluations()
     
-    path = 'static/csg562-003.jpg'
+    path = 'static/d-006.jpg'
     cover_image = Image.open(path).convert('RGB')
     name = image_name(path)
     
@@ -49,9 +49,9 @@ def run_main():
     f_berGueztli.close()
     for w_size in size_to_evaluate:
         # Instancias
-        wmr = AvilaDomenech2018Ra(
+        wmr = AvilaDomenechDCT2018R(
             'password', watermark.resize((w_size, w_size)))
-        wmf = AvilaDomenech2019F('password')
+        wmf = AvilaDomenechDCT2019F('password')
 
         f_psnr = open("psnr.txt", "a+")
         f_ber25 = open("ber25.txt", "a+")
